@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist - ClickKart</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+  /* Body and main layout */
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: row;
+  margin: 0;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+.wishlist-section {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.wishlist-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Centers items horizontally */
+}
+
+.wishlist-item {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Ensures proper spacing between image, title, and buttons */
+  min-height: 400px; /* Prevents items from shrinking too much */
+}
+
+.wishlist-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.wishlist-item h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.wishlist-item p {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.wishlist-item button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%; /* Ensures buttons take the full width */
+  margin-bottom: 10px; /* Adds space between buttons */
+}
+
+/* Button Specific Styles */
+.remove-btn {
+  background-color: #ff4d4d;
+  color: white;
+  margin-bottom: 10px; /* Adds space between the remove button and the next button */
+}
+
+.buy-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT START -->
+  <div class="main-content">
+
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
+        </div>
+
+        <form class="search__form">
+          <input class="input" type="text" placeholder="Search for products, brands and more" />
+          <div class="search__icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+
+        <div class="nav-buttons">
+          <button class="login-btn" id="login-btn">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="wishlist-section">
+      <h1>Your Wishlist</h1>
+      <div class="wishlist-items" id="wishlist-container">
+        <!-- Wishlist items will be injected here -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
+      </div>
+    </footer>
+
+  </div>
+  <!-- MAIN CONTENT END -->
+
+  <script>
+    window.onload = function () {
+      const container = document.getElementById("wishlist-container");
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+      function renderWishlist() {
+        container.innerHTML = "";
+
+        if (wishlist.length === 0) {
+          container.innerHTML = "<p>No items in your wishlist yet.</p>";
+        } else {
+          wishlist.forEach((item, index) => {
+            const productDiv = document.createElement("div");
+            productDiv.className = "wishlist-item";
+            productDiv.innerHTML = `
+              <img src="${item.image}" alt="${item.name}">
+              <h3>${item.name}</h3>
+              <p>${item.price}</p>
+              <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+              <button class="buy-btn" onclick="buyNow('${item.name}')">Buy Now</button>
+            `;
+            container.appendChild(productDiv);
+          });
+        }
+      }
+
+      window.removeItem = function(index) {
+        wishlist.splice(index, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        renderWishlist();
+      };
+
+      window.buyNow = function(productName) {
+        alert(`Redirecting to Buy Now for: ${productName}`);
+        // Implement redirection logic here if needed
+      };
+
+      renderWishlist();
+    };
+  </script>
+
+</body>
+
+</html>

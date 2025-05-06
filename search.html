@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results - ClickKart</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="main-content">
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
+        </div>
+
+        <form class="search__form" id="search-form">
+          <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
+          <div class="search__icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+
+        <div class="nav-buttons">
+          <button class="login-btn" id="login-btn">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Search Results Section -->
+    <section class="search-results-section">
+      <h2>Search Results</h2>
+      <div class="search-results"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const allProducts = [
+      { name: "Men's T-Shirt 1", category: "Men", image: "images/men-tshirt1.jpg", price: "₹499" },
+      { name: "Men's Formal Shirt 1", category: "Men", image: "images/men-shirt1.jpg", price: "₹799" },
+      { name: "Women's Saree 1", category: "Women", image: "images/women-saree1.jpg", price: "₹1500" },
+      { name: "Women's Kurtis 1", category: "Women", image: "images/women-kurti1.jpg", price: "₹799" },
+      { name: "Kids' Upperwear 1", category: "Kids", image: "images/kids-upperwear1.jpg", price: "₹399" },
+      { name: "Kids' Footwear 1", category: "Kids", image: "images/kids-footwear1.jpg", price: "₹599" },
+      // Add more products here...
+    ];
+
+    // Function to filter products based on the search query
+    function searchProducts(query) {
+      return allProducts.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
+    }
+
+    // Get the search query from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('query');
+
+    // Handle the display of search results
+    function displaySearchResults(products) {
+      const resultsContainer = document.querySelector(".search-results");
+      resultsContainer.innerHTML = ""; // Clear previous results
+
+      if (products.length > 0) {
+        products.forEach(product => {
+          const productDiv = document.createElement("div");
+          productDiv.classList.add("product-item");
+          productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" />
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+          `;
+          resultsContainer.appendChild(productDiv);
+        });
+      } else {
+        resultsContainer.innerHTML = "<p>No products found.</p>";
+      }
+    }
+
+    // Search for products and display them
+    if (searchQuery) {
+      const results = searchProducts(searchQuery);
+      displaySearchResults(results);
+    }
+
+    // Handle the search form submission
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+      }
+    });
+  </script>
+</body>
+
+</html>

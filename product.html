@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details - ClickKart</title>
+      <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Font Awesome CDN -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  </head>
+    <!-- Sidebar -->
+    <div class="menu">
+      <ul class="menu-content">
+        <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+        <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+        <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+        <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+        <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+      </ul>
+      </div>
+  <body>
+    <div class="main-content">
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
+        </div>
+
+        <form class="search__form">
+          <input class="input" type="text" placeholder="Search for products, brands, and more" />
+          <div class="search__icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+
+        <div class="nav-buttons">
+   
+          <button class="login-btn">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Product Details Section -->
+    <section class="product-details">
+      <div class="product-container">
+        <div class="product-image">
+          <img id="product-img" src="" alt="Product Image" />
+        </div>
+        <div class="product-info">
+          <h2 id="product-name">Product Name</h2>
+          <p id="product-price">₹0</p>
+          <div class="product-actions">
+            <button id="buy-now-btn" class="buy-btn">Buy Now</button>
+            <button id="wishlist-btn" class="wishlist-btn">
+              <i class="fa-solid fa-heart"></i> Wishlist
+            </button>
+          </div>
+          <div class="product-rating">
+            <span>⭐ 4.5 (120 Reviews)</span>
+          </div>
+          <div class="product-quantity">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" />
+          </div>
+          <div style="margin-bottom: 10px;">
+            <input id="pincode-input" type="text" placeholder="Enter Pincode" required />
+          </div>
+          <div style="margin-bottom: 10px;">
+            <textarea id="address-input" placeholder="Enter Address" required></textarea>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+
+     <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h4>ABOUT</h4>
+        <p>Contact Us</p>
+        <p>About Us</p>
+        <p>Careers</p>
+      </div>
+      <div class="footer-column">
+        <h4>HELP</h4>
+        <p>Payments</p>
+        <p>Shipping</p>
+        <p>Returns</p>
+      </div>
+      <div class="footer-column">
+        <h4>POLICY</h4>
+        <p>Return Policy</p>
+        <p>Terms Of Use</p>
+        <p>Privacy</p>
+      </div>
+      <div class="footer-column">
+        <h4>CONTACT</h4>
+        <p>Puttur, Karnataka</p>
+        <p>6282695997</p>
+        <p>clickkart@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Clickkart.com</p>
+    </div>
+  </footer>
+</div>
+    <script src="product.js"></script>
+  </body>
+</html>

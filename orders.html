@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orders - ClickKart</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT START -->
+  <div class="main-content">
+
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
+        </div>
+
+        <form class="search__form">
+          <input class="input" type="text" placeholder="Search for products, brands and more" />
+          <div class="search__icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+
+        <div class="nav-buttons">
+          <button class="login-btn" id="login-btn">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Orders Section -->
+    <section class="orders-section">
+      <h1>Your Orders</h1>
+      <div class="orders-list" id="orders-container">
+        <!-- Orders will load here -->
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
+      </div>
+    </footer>
+
+  </div>
+  <!-- MAIN CONTENT END -->
+
+  <script>
+    window.onload = function () {
+      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+      const container = document.getElementById("orders-container");
+
+      if (orders.length === 0) {
+        container.innerHTML = "<p>No orders yet.</p>";
+      } else {
+        orders.forEach(order => {
+          const orderDiv = document.createElement("div");
+          orderDiv.className = "order-item";
+          orderDiv.innerHTML = `
+            <img src="${order.image}" alt="${order.name}" style="width: 100px;">
+            <h3>${order.name}</h3>
+            <p>₹${order.price}</p>
+            <p><strong>Pincode:</strong> ${order.pincode}</p>
+            <p><strong>Address:</strong> ${order.address}</p>
+            <p><strong>Ordered On:</strong> ${order.orderTime}</p>
+          `;
+          container.appendChild(orderDiv);
+        });
+      }
+    };
+  </script>
+
+</body>
+
+</html>

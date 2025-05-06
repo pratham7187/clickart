@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClickKart</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT START -->
+  <div class="main-content">
+
+
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
+        </div>
+
+       <!-- Search Form -->
+<form class="search__form" id="search-form">
+  <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
+  <div class="search__icon">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+</form>
+
+        <div class="nav-buttons">
+          <button class="login-btn" id="login-btn">Login</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="trending-section">
+      <h2 class="trending-heading">Trending Now</h2>
+      <div class="carousel-wrapper">
+        <div class="carousel-track">
+          <div class="carousel-item"><img src="image/image1.png" alt="1" /></div>
+          <div class="carousel-item"><img src="image/image2.png" alt="2" /></div>
+          <div class="carousel-item"><img src="image/image3.png" alt="3" /></div>
+          <div class="carousel-item"><img src="image/image4.png" alt="4" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Menu Section -->
+    <section class="category-menu">
+      <h2>Shop Now!!</h2>
+      <div class="categories">
+        <div class="category">
+          <a href="men.html">
+            <img src="image/men.jpg" alt="Men" />
+            <h3>Men</h3>
+          </a>
+        </div>
+        <div class="category">
+          <a href="women.html">
+            <img src="image/women.jpg" alt="Women" />
+            <h3>Women</h3>
+          </a>
+        </div>
+        <div class="category">
+          <a href="kids.html">
+            <img src="image/kid.jpg" alt="Kids" />
+            <h3>Kids</h3>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
+      </div>
+    </footer>
+
+  </div>
+  <!-- MAIN CONTENT END -->
+
+  <!-- Login/Sign Up Modal -->
+  <div class="login-modal" id="login-modal">
+    <div class="login-modal-content">
+      <span class="close-modal" id="close-modal">&times;</span>
+      <h2>Login</h2>
+      <form id="auth-form">
+        <!-- Default form will be Login -->
+        <input type="email" id="email" name="email" placeholder="Email" required />
+        <input type="password" id="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <div class="toggle-form">
+        <p>Don't have an account? <span id="toggle-signup">Sign Up</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to store user data in localStorage
+    function storeUserData(name, email, password) {
+      const user = { name, email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  
+    // Function to get user data from localStorage
+    function getUserData() {
+      return JSON.parse(localStorage.getItem("user"));
+    }
+  
+    // Modal Toggle Logic
+    const loginBtn = document.getElementById("login-btn");
+    const loginModal = document.getElementById("login-modal");
+    const closeModal = document.getElementById("close-modal");
+    const toggleSignup = document.getElementById("toggle-signup");
+    const formTitle = document.querySelector(".login-modal-content h2");
+    const authForm = document.getElementById("auth-form");
+  
+    // Open Modal
+    loginBtn.addEventListener("click", () => {
+      loginModal.style.display = "block";
+    });
+  
+    // Close Modal
+    closeModal.addEventListener("click", () => {
+      loginModal.style.display = "none";
+    });
+  
+    // Toggle between Login and Sign Up
+    toggleSignup.addEventListener("click", () => {
+      if (formTitle.innerText === "Login") {
+        formTitle.innerText = "Sign Up";
+        authForm.innerHTML = `
+          <input type="text" id="name" name="name" placeholder="Name" required />
+          <input type="email" id="email" name="email" placeholder="Email" required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
+          <button type="submit">Sign Up</button>
+        `;
+        toggleSignup.innerText = "Already have an account? Login";
+      } else {
+        formTitle.innerText = "Login";
+        authForm.innerHTML = `
+          <input type="email" id="email" name="email" placeholder="Email" required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
+          <button type="submit">Login</button>
+        `;
+        toggleSignup.innerText = "Don't have an account? Sign Up";
+      }
+    });
+  
+    // Handle form submission (Login/Sign Up)
+    authForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      const name = document.getElementById("name") ? document.getElementById("name").value : "";
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+  
+      if (formTitle.innerText === "Sign Up") {
+        // Save the user data in localStorage for signup
+        storeUserData(name, email, password);
+        alert("Sign up successful! Data saved to local storage.");
+      } else {
+        // Handle Login
+        const savedUser = getUserData();
+        if (savedUser && savedUser.email === email && savedUser.password === password) {
+          alert("Login successful!");
+        } else {
+          alert("Invalid email or password.");
+        }
+      }
+  
+      // Close the modal after form submission
+      loginModal.style.display = "none";
+    });
+
+    // Search functionality: redirect to search page
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+      }
+    });
+  </script>
+
+</body>
+
+</html>

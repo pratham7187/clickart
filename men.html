@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Men's Fashion - ClickKart</title>
+      <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome CDN -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  </head>
+  
+  <body>
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+  <div class="main-content">
+  <!-- Navbar -->
+  <header>
+    <div class="navBar">
+      <div class="logo">
+        <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
+      </div>
+
+      <form class="search__form">
+        <input class="input" type="text" placeholder="Search for products, brands and more" />
+        <div class="search__icon">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+      </form>
+
+      <div class="nav-buttons">
+     
+       
+      </div>
+    </div>
+  </header>
+
+  <!-- Header Section -->
+  <header class="header">
+    <h1 style="margin-left: 100px;">Men's Fashion</h1>
+  </header>
+
+  <!-- Shop by Category Section -->
+  <section class="shop-category" style="margin-left: 100px; padding: 40px;">
+    <h2>Shop by Category</h2>
+    <div class="category-row">
+      <div class="category-block" id="filter-tshirt">
+        <img src="image/tshirt.jpg" alt="T-Shirt">
+        <p>T-Shirts</p>
+      </div>
+      <div class="category-block" id="filter-formal">
+        <img src="image/formals.jpg" alt="Formal Shirt">
+        <p>Formal Shirts</p>
+      </div>
+      <div class="category-block" id="filter-jeans">
+        <img src="image/jeans.jpg" alt="Jeans">
+        <p>Men's Jeans</p>
+      </div>
+      <div class="category-block" id="filter-joggers">
+        <img src="image/joggers.jpg" alt="Joggers">
+        <p>Joggers</p>
+      </div>
+      <div class="category-block" id="filter-footwear">
+        <img src="image/footwear.jpg" alt="Footwear">
+        <p>Footwear</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Section -->
+  <section class="product-section">
+    <h3 style="margin-left: 100px;">All Men's Products</h3>
+    <div class="product-grid">
+      
+      <!-- T-Shirts -->
+      <div class="product-item tshirt" onclick="handleProductClick('T-Shirt Classic', '₹499', 'imgmentshirt/t1.jpeg')">
+        <img src="imgmentshirt/t1.jpeg" alt="T-Shirt">
+        <p>T-Shirt Classic</p>
+        <p>₹499</p>
+      </div>
+      <div class="product-item tshirt" onclick="handleProductClick('Printed Tee', '₹599', 'imgmentshirt/t2.jpeg')">
+        <img src="imgmentshirt/t2.jpeg" alt="T-Shirt">
+        <p>Printed Tee</p>
+        <p>₹599</p>
+      </div>
+      <div class="product-item tshirt" onclick="handleProductClick('U-Neck Tee', '₹549', 'imgmentshirt/t3.jpeg')">
+        <img src="imgmentshirt/t3.jpeg" alt="T-Shirt">
+        <p>U-Neck Tee</p>
+        <p>₹549</p>
+      </div>
+      <div class="product-item tshirt" onclick="handleProductClick('Casual T-Shirt', '₹479', 'imgmentshirt/t4.jpeg')">
+        <img src="imgmentshirt/t4.jpeg" alt="T-Shirt">
+        <p>Casual T-Shirt</p>
+        <p>₹479</p>
+      </div>
+      <div class="product-item tshirt" onclick="handleProductClick('Striped Tee', '₹629', 'imgmentshirt/t5.jpeg')">
+        <img src="imgmentshirt/t5.jpeg" alt="T-Shirt">
+        <p>Striped Tee</p>
+        <p>₹629</p>
+      </div>
+      <div class="product-item tshirt" onclick="handleProductClick('Urban Tee', '₹529', 'imgmentshirt/t6.jpeg')">
+        <img src="imgmentshirt/t6.jpeg" alt="T-Shirt">
+        <p>Urban Tee</p>
+        <p>₹529</p>
+      </div>
+      
+      <!-- Formal Shirts -->
+      <div class="product-item formal" onclick="handleProductClick('Green Formal', '₹999', 'imgformals/f1a.jpeg')">
+        <img src="imgformals/f1a.jpeg" alt="Formal Shirt">
+        <p>Green Formal</p>
+        <p>₹999</p>
+      </div>
+      <div class="product-item formal" onclick="handleProductClick('Sky Blue Shirt', '₹899', 'imgformals/f2a.jpeg')">
+        <img src="imgformals/f2a.jpeg" alt="Formal Shirt">
+        <p>Sky Blue Shirt</p>
+        <p>₹899</p>
+      </div>
+      <div class="product-item formal" onclick="handleProductClick('Wine Formal', '₹949', 'imgformals/f3a.jpeg')">
+        <img src="imgformals/f3a.jpeg" alt="Formal Shirt">
+        <p>Wine Formal</p>
+        <p>₹949</p>
+      </div>
+      <div class="product-item formal" onclick="handleProductClick('White Formal', '₹1,049', 'imgformals/f4b.jpeg')">
+        <img src="imgformals/f4b.jpeg" alt="Formal Shirt">
+        <p>White Formal</p>
+        <p>₹1,049</p>
+      </div>
+      <div class="product-item formal" onclick="handleProductClick('Checkered Shirt', '₹1,099', 'imgformals/f5a.jpeg')">
+        <img src="imgformals/f5a.jpeg" alt="Formal Shirt">
+        <p>Checkered Shirt</p>
+        <p>₹1,099</p>
+      </div>
+      <div class="product-item formal" onclick="handleProductClick('Navy Blue Shirt', '₹1,149', 'imgformals/f6a.jpeg')">
+        <img src="imgformals/f6a.jpeg" alt="Formal Shirt">
+        <p>Navy Blue Shirt</p>
+        <p>₹1,149</p>
+      </div>
+      
+      <!-- Jeans -->
+      <div class="product-item jeans" onclick="handleProductClick('Slim Fit Jeans', '₹1,299', 'jeans/j1.jpeg')">
+        <img src="jeans/j1.jpeg" alt="Jeans">
+        <p>Slim Fit Jeans</p>
+        <p>₹1,299</p>
+      </div>
+      <div class="product-item jeans" onclick="handleProductClick('Blue Denim', '₹1,399', 'jeans/j2.jpeg')">
+        <img src="jeans/j2.jpeg" alt="Jeans">
+        <p>Blue Denim</p>
+        <p>₹1,399</p>
+      </div>
+      <div class="product-item jeans" onclick="handleProductClick('Ripped Jeans', '₹1,499', 'jeans/j3.jpeg')">
+        <img src="jeans/j3.jpeg" alt="Jeans">
+        <p>Ripped Jeans</p>
+        <p>₹1,499</p>
+      </div>
+      <div class="product-item jeans" onclick="handleProductClick('Regular Fit Jeans', '₹1,349', 'jeans/j4.jpeg')">
+        <img src="jeans/j4.jpeg" alt="Jeans">
+        <p>Regular Fit Jeans</p>
+        <p>₹1,349</p>
+      </div>
+      <div class="product-item jeans" onclick="handleProductClick('Washed Denim', '₹1,299', 'jeans/j5.jpeg')">
+        <img src="jeans/j5.jpeg" alt="Jeans">
+        <p>Washed Denim</p>
+        <p>₹1,299</p>
+      </div>
+      <div class="product-item jeans" onclick="handleProductClick('Light Blue Jeans', '₹1,399', 'jeans/j6.jpeg')">
+        <img src="jeans/j6.jpeg" alt="Jeans">
+        <p>Light Blue Jeans</p>
+        <p>₹1,399</p>
+      </div>
+      
+      <!-- Joggers -->
+      <div class="product-item joggers" onclick="handleProductClick('Track Joggers', '₹899', 'joggers/jo1.jpeg')">
+        <img src="joggers/jo1.jpeg" alt="Joggers">
+        <p>Track Joggers</p>
+        <p>₹899</p>
+      </div>
+      <div class="product-item joggers" onclick="handleProductClick('Grey Joggers', '₹949', 'joggers/jo2.jpeg')">
+        <img src="joggers/jo2.jpeg" alt="Joggers">
+        <p>Grey Joggers</p>
+        <p>₹949</p>
+      </div>
+      <div class="product-item joggers" onclick="handleProductClick('Sports Joggers', '₹999', 'joggers/jo3.jpeg')">
+        <img src="joggers/jo3.jpeg" alt="Joggers">
+        <p>Sports Joggers</p>
+        <p>₹999</p>
+      </div>
+      <div class="product-item joggers" onclick="handleProductClick('Wine Joggers', '₹899', 'joggers/jo4.jpeg')">
+        <img src="joggers/jo4.jpeg" alt="Joggers">
+        <p>Wine Joggers</p>
+        <p>₹899</p>
+      </div>
+      <div class="product-item joggers" onclick="handleProductClick('Relax Fit Joggers', '₹1,049', 'joggers/jo5.jpeg')">
+        <img src="joggers/jo5.jpeg" alt="Joggers">
+        <p>Relax Fit Joggers</p>
+        <p>₹1,049</p>
+      </div>
+      <div class="product-item joggers" onclick="handleProductClick('Training Joggers', '₹999', 'joggers/jo6.jpeg')">
+        <img src="joggers/jo6.jpeg" alt="Joggers">
+        <p>Training Joggers</p>
+        <p>₹999</p>
+      </div>
+      
+      <!-- Footwear -->
+      <div class="product-item footwear" onclick="handleProductClick('Addidas Sneakers', '₹1,499', 'footwear/fo1.jpeg')">
+        <img src="footwear/fo1.jpeg" alt="Footwear">
+        <p>Addidas Sneakers</p>
+        <p>₹1,499</p>
+      </div>
+      <div class="product-item footwear" onclick="handleProductClick('Casual Sneakers', '₹1,399', 'footwear/fo2.jpeg')">
+        <img src="footwear/fo2.jpeg" alt="Footwear">
+        <p>Casual Sneakers</p>
+        <p>₹1,399</p>
+      </div>
+      <div class="product-item footwear" onclick="handleProductClick('Nike Sneakers', '₹1,699', 'footwear/fo3.jpeg')">
+        <img src="footwear/fo3.jpeg" alt="Footwear">
+        <p>Nike Sneakers</p>
+        <p>₹1,699</p>
+      </div>
+      <div class="product-item footwear" onclick="handleProductClick('Black Loafers', '₹1,299', 'footwear/fo4.jpeg')">
+        <img src="footwear/fo4.jpeg" alt="Footwear">
+        <p>Black Loafers</p>
+        <p>₹1,299</p>
+      </div>
+      <div class="product-item footwear" onclick="handleProductClick('Brown Sandals Men', '₹499', 'footwear/fo5.jpeg')">
+        <img src="footwear/fo5.jpeg" alt="Footwear">
+        <p>Brown Sandals Men</p>
+        <p>₹499</p>
+      </div>
+      <div class="product-item footwear" onclick="handleProductClick('Arizona Men', '₹1,199', 'footwear/fo6.jpeg')">
+        <img src="footwear/fo6.jpeg" alt="Footwear">
+        <p>Arizona Men</p>
+        <p>₹1,199</p>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- JS Filter Logic -->
+  <script>
+    const filters = {
+      "filter-tshirt": "tshirt",
+      "filter-formal": "formal",
+      "filter-jeans": "jeans",
+      "filter-joggers": "joggers",
+      "filter-footwear": "footwear"
+    };
+
+    Object.keys(filters).forEach(filterId => {
+      const btn = document.getElementById(filterId);
+      if (btn) {
+        btn.addEventListener("click", function () {
+          const category = filters[filterId];
+          const allItems = document.querySelectorAll(".product-item");
+          allItems.forEach(item => item.style.display = "none");
+
+          const selected = document.querySelectorAll(`.${category}`);
+          selected.forEach(item => item.style.display = "block");
+        });
+      }
+    });
+
+    function handleProductClick(name, price, image) {
+      localStorage.setItem('productName', name);
+      localStorage.setItem('productPrice', price);
+      localStorage.setItem('productImage', image);
+      window.location.href = 'product.html';
+    }
+  </script>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h4>ABOUT</h4>
+            <p>Contact Us</p>
+            <p>About Us</p>
+            <p>Careers</p>
+          </div>
+          <div class="footer-column">
+            <h4>HELP</h4>
+            <p>Payments</p>
+            <p>Shipping</p>
+            <p>Returns</p>
+          </div>
+          <div class="footer-column">
+            <h4>POLICY</h4>
+            <p>Return Policy</p>
+            <p>Terms Of Use</p>
+            <p>Privacy</p>
+          </div>
+          <div class="footer-column">
+            <h4>CONTACT</h4>
+            <p>Puttur, Karnataka</p>
+            <p>6282695997</p>
+            <p>clickkart@gmail.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Clickkart.com</p>
+        </div>
+      </footer>
+</div>
+  </body>
+</html>
