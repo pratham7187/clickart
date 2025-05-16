@@ -82,15 +82,15 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%; /* Ensures buttons take the full width */
-  margin-bottom: 10px; /* Adds space between buttons */
+  width: 100%; 
+  margin-bottom: 10px; 
 }
 
-/* Button Specific Styles */
+
 .remove-btn {
   background-color: #ff4d4d;
   color: white;
-  margin-bottom: 10px; /* Adds space between the remove button and the next button */
+  margin-bottom: 10px; 
 }
 
 .buy-btn {
@@ -103,7 +103,7 @@ body {
 
 <body>
 
-  <!-- Sidebar -->
+  
   <div class="menu">
     <ul class="menu-content">
       <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
@@ -114,10 +114,10 @@ body {
     </ul>
   </div>
 
-  <!-- MAIN CONTENT START -->
+  
   <div class="main-content">
 
-    <!-- Navbar -->
+    
     <header>
       <div class="navBar">
         <div class="logo">
@@ -140,7 +140,7 @@ body {
     <div class="wishlist-section">
       <h1>Your Wishlist</h1>
       <div class="wishlist-items" id="wishlist-container">
-        <!-- Wishlist items will be injected here -->
+        
       </div>
     </div>
 
@@ -178,7 +178,7 @@ body {
     </footer>
 
   </div>
-  <!-- MAIN CONTENT END -->
+  
 
   <script>
     window.onload = function () {
@@ -214,7 +214,7 @@ body {
 
       window.buyNow = function(productName) {
         alert(`Redirecting to Buy Now for: ${productName}`);
-        // Implement redirection logic here if needed
+        
       };
 
       renderWishlist();

@@ -50,8 +50,7 @@ document.getElementById("auth-form").addEventListener("submit", async function (
     if (res.ok) {
       alert(isLogin ? "Login successful!" : "Sign up successful!");
       console.log("Token/User:", data);
-      // Optionally redirect:
-      // window.location.href = "index.html";
+      
     } else {
       alert(data.msg || "Something went wrong.");
     }

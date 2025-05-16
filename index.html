@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClickKart</title>
 
-  <!-- Google Fonts -->
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
 
-  <!-- Font Awesome -->
+  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -20,7 +20,7 @@
 
 <body>
 
-  <!-- Sidebar -->
+  
   <div class="menu">
     <ul class="menu-content">
       <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
@@ -31,18 +31,18 @@
     </ul>
   </div>
 
-  <!-- MAIN CONTENT START -->
+  
   <div class="main-content">
 
 
-    <!-- Navbar -->
+    
     <header>
       <div class="navBar">
         <div class="logo">
           <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
         </div>
 
-       <!-- Search Form -->
+       
 <form class="search__form" id="search-form">
   <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
   <div class="search__icon">
@@ -68,7 +68,7 @@
       </div>
     </section>
 
-    <!-- Category Menu Section -->
+    
     <section class="category-menu">
       <h2>Shop Now!!</h2>
       <div class="categories">
@@ -166,7 +166,7 @@
     const formTitle = document.querySelector(".login-modal-content h2");
     const authForm = document.getElementById("auth-form");
   
-    // Open Modal
+
     loginBtn.addEventListener("click", () => {
       loginModal.style.display = "block";
     });
@@ -176,7 +176,6 @@
       loginModal.style.display = "none";
     });
   
-    // Toggle between Login and Sign Up
     toggleSignup.addEventListener("click", () => {
       if (formTitle.innerText === "Login") {
         formTitle.innerText = "Sign Up";
@@ -198,7 +197,7 @@
       }
     });
   
-    // Handle form submission (Login/Sign Up)
+
     authForm.addEventListener("submit", function (e) {
       e.preventDefault();
   
@@ -207,11 +206,11 @@
       const password = document.getElementById("password").value;
   
       if (formTitle.innerText === "Sign Up") {
-        // Save the user data in localStorage for signup
+ 
         storeUserData(name, email, password);
         alert("Sign up successful! Data saved to local storage.");
       } else {
-        // Handle Login
+   
         const savedUser = getUserData();
         if (savedUser && savedUser.email === email && savedUser.password === password) {
           alert("Login successful!");
@@ -220,11 +219,10 @@
         }
       }
   
-      // Close the modal after form submission
+
       loginModal.style.display = "none";
     });
 
-    // Search functionality: redirect to search page
     const searchForm = document.getElementById('search-form');
     const searchInput = document.getElementById('search-input');
 
