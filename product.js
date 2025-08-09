@@ -17,7 +17,7 @@ window.onload = function () {
   }
 
   function getUserEmail() {
-    return localStorage.getItem("clickkart-user"); // login.js must store this
+    return localStorage.getItem("clickkart-user");
   }
 
   // BUY NOW -> backend
@@ -29,7 +29,7 @@ window.onload = function () {
 
     if (!email) {
       alert("Please login to place an order.");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
       return;
     }
 
@@ -58,7 +58,6 @@ window.onload = function () {
       const data = await res.json();
       if (res.ok) {
         alert(data.message || "Order placed successfully!");
-        // redirect to orders page to view
         window.location.href = "orders.html";
       } else {
         alert(data.message || "Failed to place order.");
@@ -74,7 +73,7 @@ window.onload = function () {
     const email = getUserEmail();
     if (!email) {
       alert("Please login to add items to wishlist.");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
       return;
     }
 
