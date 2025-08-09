@@ -1,5 +1,3 @@
-// script.js
-
 let isLogin = true;
 
 function toggleForm() {
@@ -30,9 +28,10 @@ document.getElementById("auth-form").addEventListener("submit", async function (
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
+  // ✅ FIXED endpoints
   const endpoint = isLogin
-    ? "http://localhost:5000/api/auth/login"
-    : "http://localhost:5000/api/auth/register";
+    ? "http://localhost:5000/api/login"
+    : "http://localhost:5000/api/register";
 
   const payload = isLogin ? { email, password } : { name, email, password };
 
@@ -48,16 +47,18 @@ document.getElementById("auth-form").addEventListener("submit", async function (
     const data = await res.json();
 
     if (res.ok) {
-      alert(isLogin ? "Login successful!" : "Sign up successful!");
-      console.log("Token/User:", data);
+      alert(data.message);
       
+      // ✅ Store user session
+      localStorage.setItem("clickkart-user", email);
+
+      // ✅ Redirect to profile or home
+      window.location.href = "profile.html";
     } else {
-      alert(data.msg || "Something went wrong.");
+      alert(data.message || "Something went wrong.");
     }
   } catch (error) {
     console.error(error);
     alert("Error connecting to server.");
   }
 });
-
-  

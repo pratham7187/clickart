@@ -1,3 +1,8 @@
+// product.js
+// Loads product details from localStorage and sends wishlist/order requests to backend.
+
+const API_BASE = "http://localhost:5000";
+
 window.onload = function () {
   const productName = localStorage.getItem("productName");
   const productPrice = localStorage.getItem("productPrice");
@@ -11,10 +16,22 @@ window.onload = function () {
     alert("Product details are not available.");
   }
 
-  // BUY NOW FUNCTIONALITY
-  document.getElementById("buy-now-btn").addEventListener("click", function () {
+  function getUserEmail() {
+    return localStorage.getItem("clickkart-user"); // login.js must store this
+  }
+
+  // BUY NOW -> backend
+  document.getElementById("buy-now-btn").addEventListener("click", async function () {
     const pincode = document.getElementById("pincode-input")?.value;
     const address = document.getElementById("address-input")?.value;
+    const quantity = parseInt(document.getElementById("quantity")?.value || "1");
+    const email = getUserEmail();
+
+    if (!email) {
+      alert("Please login to place an order.");
+      window.location.href = "login.html";
+      return;
+    }
 
     if (!pincode || !address) {
       alert("Please enter both pincode and address.");
@@ -27,47 +44,62 @@ window.onload = function () {
       image: productImage,
       pincode: pincode,
       address: address,
+      quantity: quantity,
+      email: email,
       orderTime: new Date().toLocaleString()
     };
 
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
-    orders.push(order);
-    localStorage.setItem("orders", JSON.stringify(orders));
-
-    // Show confirmation
-    const confirmation = document.createElement("div");
-    confirmation.innerHTML = `
-      <div style="padding: 15px; text-align: center; color: green;">
-        <i class="fa-solid fa-circle-check" style="font-size: 40px;"></i>
-        <h3>Order Placed Successfully!</h3>
-      </div>
-    `;
-    document.body.appendChild(confirmation);
-
-    // Optionally redirect to orders page after a delay
-    setTimeout(() => {
-      window.location.href = "orders.html";
-    }, 2000);
+    try {
+      const res = await fetch(`${API_BASE}/api/buy`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message || "Order placed successfully!");
+        // redirect to orders page to view
+        window.location.href = "orders.html";
+      } else {
+        alert(data.message || "Failed to place order.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error connecting to server.");
+    }
   });
 
-  // WISHLIST FUNCTIONALITY
-  document.getElementById("wishlist-btn").addEventListener("click", function () {
+  // WISHLIST -> backend
+  document.getElementById("wishlist-btn").addEventListener("click", async function () {
+    const email = getUserEmail();
+    if (!email) {
+      alert("Please login to add items to wishlist.");
+      window.location.href = "login.html";
+      return;
+    }
+
     const wishlistItem = {
       name: productName,
       price: productPrice,
-      image: productImage
+      image: productImage,
+      email: email
     };
 
-    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-
-    const exists = wishlist.some(item => item.name === wishlistItem.name && item.price === wishlistItem.price);
-
-    if (!exists) {
-      wishlist.push(wishlistItem);
-      localStorage.setItem("wishlist", JSON.stringify(wishlist));
-      alert("Added to wishlist!");
-    } else {
-      alert("Item is already in your wishlist!");
+    try {
+      const res = await fetch(`${API_BASE}/api/wishlist`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(wishlistItem)
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(data.message || "Added to wishlist!");
+      } else {
+        alert(data.message || "Could not add to wishlist.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error connecting to server.");
     }
   });
 };

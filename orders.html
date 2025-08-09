@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orders - ClickKart</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .orders-list { display:flex; flex-wrap:wrap; gap:20px; padding:20px; }
+    .order-item { border:1px solid #ddd; padding:15px; border-radius:8px; width:260px; background:#fff; }
+    .order-item img { width:100%; height:140px; object-fit:cover; border-radius:6px; }
+    .order-item h3 { margin:8px 0; font-size:18px; }
+    .order-item p { margin:4px 0; font-size:14px; }
+  </style>
 </head>
-
 <body>
-
-  
   <div class="menu">
     <ul class="menu-content">
       <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
@@ -31,98 +26,84 @@
     </ul>
   </div>
 
-  
   <div class="main-content">
-
-    
     <header>
       <div class="navBar">
-        <div class="logo">
-          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
-        </div>
-
-        <form class="search__form">
-          <input class="input" type="text" placeholder="Search for products, brands and more" />
-          <div class="search__icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
-        </form>
-
-        <div class="nav-buttons">
-          <button class="login-btn" id="login-btn">Login</button>
-        </div>
+        <div class="logo"><img src="image/logo.png" class="clickkart-logo" alt="" height="100" /></div>
+        <form class="search__form"><input class="input" type="text" placeholder="Search for products, brands and more" /><div class="search__icon"><i class="fa-solid fa-magnifying-glass"></i></div></form>
+        <div class="nav-buttons"><button class="login-btn" id="login-btn">Login</button></div>
       </div>
     </header>
 
-    
     <section class="orders-section">
       <h1>Your Orders</h1>
-      <div class="orders-list" id="orders-container">
-        
-      </div>
+      <div class="orders-list" id="orders-container"></div>
     </section>
 
-    
     <footer>
       <div class="footer-grid">
-        <div class="footer-column">
-          <h4>ABOUT</h4>
-          <p>Contact Us</p>
-          <p>About Us</p>
-          <p>Careers</p>
-        </div>
-        <div class="footer-column">
-          <h4>HELP</h4>
-          <p>Payments</p>
-          <p>Shipping</p>
-          <p>Returns</p>
-        </div>
-        <div class="footer-column">
-          <h4>POLICY</h4>
-          <p>Return Policy</p>
-          <p>Terms Of Use</p>
-          <p>Privacy</p>
-        </div>
-        <div class="footer-column">
-          <h4>CONTACT</h4>
-          <p>Puttur, Karnataka</p>
-          <p>6282695997</p>
-          <p>clickkart@gmail.com</p>
-        </div>
+        <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
+        <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
+        <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
+        <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Clickkart.com</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
     </footer>
-
   </div>
-  
 
   <script>
-    window.onload = function () {
-      const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const API_BASE = "http://localhost:5000";
+
+    function getUserEmail() {
+      return localStorage.getItem("clickkart-user");
+    }
+
+    async function fetchOrders() {
+      const email = getUserEmail();
       const container = document.getElementById("orders-container");
 
-      if (orders.length === 0) {
-        container.innerHTML = "<p>No orders yet.</p>";
-      } else {
+      if (!email) {
+        container.innerHTML = "<p>Please login to view your orders.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/orders/${encodeURIComponent(email)}`);
+        if (!res.ok) {
+          container.innerHTML = "<p>Error loading orders.</p>";
+          return;
+        }
+        const orders = await res.json();
+
+        container.innerHTML = "";
+        if (!orders || orders.length === 0) {
+          container.innerHTML = "<p>No orders yet.</p>";
+          return;
+        }
+
         orders.forEach(order => {
           const orderDiv = document.createElement("div");
           orderDiv.className = "order-item";
           orderDiv.innerHTML = `
-            <img src="${order.image}" alt="${order.name}" style="width: 100px;">
+            <img src="${order.image}" alt="${order.name}">
             <h3>${order.name}</h3>
-            <p>₹${order.price}</p>
-            <p><strong>Pincode:</strong> ${order.pincode}</p>
-            <p><strong>Address:</strong> ${order.address}</p>
-            <p><strong>Ordered On:</strong> ${order.orderTime}</p>
+            <p><strong>Price:</strong> ${order.price}</p>
+            <p><strong>Qty:</strong> ${order.quantity || 1}</p>
+            <p><strong>Pincode:</strong> ${order.pincode || "-"}</p>
+            <p style="font-size:12px;"><strong>Ordered On:</strong> ${order.orderTime || "-"}</p>
+            <p style="font-size:12px;"><strong>Address:</strong> ${order.address || "-"}</p>
           `;
           container.appendChild(orderDiv);
         });
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p>Error loading orders.</p>";
       }
+    }
+
+    window.onload = function () {
+      fetchOrders();
     };
   </script>
-
 </body>
-
 </html>

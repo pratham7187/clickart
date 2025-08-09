@@ -1,55 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClickKart</title>
 
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
-
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  
+  <!-- Sidebar Menu -->
   <div class="menu">
     <ul class="menu-content">
-      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
-      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
-      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
-      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
-      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="wishlist.html"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+      <li><a href="orders.html"><i class="fa-solid fa-box"></i> Orders</a></li>
+      <li><a href="logout.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>
   </div>
 
-  
+  <!-- Main Content -->
   <div class="main-content">
-
-
-    
     <header>
       <div class="navBar">
         <div class="logo">
-          <img src="image/logo.png" class="clickkart-logo" alt="" height="100" />
+          <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="100" />
         </div>
-
-       
-<form class="search__form" id="search-form">
-  <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
-  <div class="search__icon">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </div>
-</form>
-
+        <form class="search__form" id="search-form">
+          <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
+          <div class="search__icon" id="search-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
         <div class="nav-buttons">
           <button class="login-btn" id="login-btn">Login</button>
         </div>
@@ -68,114 +56,60 @@
       </div>
     </section>
 
-    
     <section class="category-menu">
       <h2>Shop Now!!</h2>
       <div class="categories">
-        <div class="category">
-          <a href="men.html">
-            <img src="image/men.jpg" alt="Men" />
-            <h3>Men</h3>
-          </a>
-        </div>
-        <div class="category">
-          <a href="women.html">
-            <img src="image/women.jpg" alt="Women" />
-            <h3>Women</h3>
-          </a>
-        </div>
-        <div class="category">
-          <a href="kids.html">
-            <img src="image/kid.jpg" alt="Kids" />
-            <h3>Kids</h3>
-          </a>
-        </div>
+        <div class="category"><a href="men.html"><img src="image/men.jpg" alt="Men" /><h3>Men</h3></a></div>
+        <div class="category"><a href="women.html"><img src="image/women.jpg" alt="Women" /><h3>Women</h3></a></div>
+        <div class="category"><a href="kids.html"><img src="image/kid.jpg" alt="Kids" /><h3>Kids</h3></a></div>
       </div>
     </section>
 
     <!-- Footer -->
     <footer>
       <div class="footer-grid">
-        <div class="footer-column">
-          <h4>ABOUT</h4>
-          <p>Contact Us</p>
-          <p>About Us</p>
-          <p>Careers</p>
-        </div>
-        <div class="footer-column">
-          <h4>HELP</h4>
-          <p>Payments</p>
-          <p>Shipping</p>
-          <p>Returns</p>
-        </div>
-        <div class="footer-column">
-          <h4>POLICY</h4>
-          <p>Return Policy</p>
-          <p>Terms Of Use</p>
-          <p>Privacy</p>
-        </div>
-        <div class="footer-column">
-          <h4>CONTACT</h4>
-          <p>Puttur, Karnataka</p>
-          <p>6282695997</p>
-          <p>clickkart@gmail.com</p>
-        </div>
+        <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
+        <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
+        <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
+        <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Clickkart.com</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
     </footer>
-
   </div>
-  <!-- MAIN CONTENT END -->
 
   <!-- Login/Sign Up Modal -->
   <div class="login-modal" id="login-modal">
     <div class="login-modal-content">
       <span class="close-modal" id="close-modal">&times;</span>
-      <h2>Login</h2>
+      <h2 id="form-title">Login</h2>
       <form id="auth-form">
-        <!-- Default form will be Login -->
         <input type="email" id="email" name="email" placeholder="Email" required />
         <input type="password" id="password" name="password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <button type="submit" id="submit-btn">Login</button>
       </form>
       <div class="toggle-form">
-        <p>Don't have an account? <span id="toggle-signup">Sign Up</span></p>
+        <p><span class="toggle" id="toggle-signup">Don't have an account? Sign Up</span></p>
       </div>
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
-    // Function to store user data in localStorage
-    function storeUserData(name, email, password) {
-      const user = { name, email, password };
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-  
-    // Function to get user data from localStorage
-    function getUserData() {
-      return JSON.parse(localStorage.getItem("user"));
-    }
-  
-    // Modal Toggle Logic
     const loginBtn = document.getElementById("login-btn");
     const loginModal = document.getElementById("login-modal");
     const closeModal = document.getElementById("close-modal");
     const toggleSignup = document.getElementById("toggle-signup");
-    const formTitle = document.querySelector(".login-modal-content h2");
+    const formTitle = document.getElementById("form-title");
     const authForm = document.getElementById("auth-form");
-  
 
     loginBtn.addEventListener("click", () => {
       loginModal.style.display = "block";
     });
-  
-    // Close Modal
+
     closeModal.addEventListener("click", () => {
       loginModal.style.display = "none";
     });
-  
+
     toggleSignup.addEventListener("click", () => {
       if (formTitle.innerText === "Login") {
         formTitle.innerText = "Sign Up";
@@ -183,58 +117,87 @@
           <input type="text" id="name" name="name" placeholder="Name" required />
           <input type="email" id="email" name="email" placeholder="Email" required />
           <input type="password" id="password" name="password" placeholder="Password" required />
-          <button type="submit">Sign Up</button>
+          <button type="submit" id="submit-btn">Sign Up</button>
         `;
-        toggleSignup.innerText = "Already have an account? Login";
       } else {
         formTitle.innerText = "Login";
         authForm.innerHTML = `
           <input type="email" id="email" name="email" placeholder="Email" required />
           <input type="password" id="password" name="password" placeholder="Password" required />
-          <button type="submit">Login</button>
+          <button type="submit" id="submit-btn">Login</button>
         `;
-        toggleSignup.innerText = "Don't have an account? Sign Up";
       }
     });
-  
 
-    authForm.addEventListener("submit", function (e) {
+    document.addEventListener("submit", async function (e) {
+      if (e.target.id !== "auth-form") return;
       e.preventDefault();
-  
-      const name = document.getElementById("name") ? document.getElementById("name").value : "";
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-  
-      if (formTitle.innerText === "Sign Up") {
- 
-        storeUserData(name, email, password);
-        alert("Sign up successful! Data saved to local storage.");
-      } else {
-   
-        const savedUser = getUserData();
-        if (savedUser && savedUser.email === email && savedUser.password === password) {
-          alert("Login successful!");
+
+      const nameInput = document.getElementById("name");
+      const name = nameInput ? nameInput.value.trim() : "";
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      const isLogin = formTitle.innerText === "Login";
+      const endpoint = isLogin
+        ? "http://localhost:5000/api/login"
+        : "http://localhost:5000/api/register";
+
+      const payload = isLogin ? { email, password } : { name, email, password };
+
+      try {
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(data.message);
+          localStorage.setItem("clickkart-user", email);
+          window.location.href = "profile.html";
         } else {
-          alert("Invalid email or password.");
+          alert(data.message || "Something went wrong.");
         }
+      } catch (error) {
+        console.error(error);
+        alert("Error connecting to server.");
       }
-  
 
       loginModal.style.display = "none";
     });
 
-    const searchForm = document.getElementById('search-form');
-    const searchInput = document.getElementById('search-input');
+    // Auto open login modal if user not logged in
+    window.addEventListener("DOMContentLoaded", () => {
+      const user = localStorage.getItem("clickkart-user");
+      if (!user) {
+        loginModal.style.display = "block";
+      }
+    });
 
-    searchForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const query = searchInput.value.trim();
+    // Search functionality
+    function doSearch() {
+      const query = document.getElementById("search-input").value.trim();
       if (query) {
         window.location.href = `search.html?query=${encodeURIComponent(query)}`;
       }
+    }
+
+    const searchForm = document.getElementById("search-form");
+    const searchIcon = document.getElementById("search-icon");
+
+    // Submit on Enter
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      doSearch();
+    });
+
+    // Submit on icon click
+    searchIcon.addEventListener("click", function () {
+      doSearch();
     });
   </script>
-
 </body>
-
 </html>

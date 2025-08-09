@@ -4,20 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Women's Fashion - ClickKart</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
-  
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <!-- Sidebar -->
   <div class="menu">
     <ul class="menu-content">
       <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
@@ -28,198 +22,89 @@
     </ul>
   </div>
   <div class="main-content">
-  <!-- Navbar -->
-  <header>
-    <div class="navBar">
-      <div class="logo">
-        <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
-      </div>
-
-      <form class="search__form">
-        <input class="input" type="text" placeholder="Search for products, brands and more" />
-        <div class="search__icon">
-          <i class="fa-solid fa-magnifying-glass"></i>
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
         </div>
-      </form>
+        <form class="search__form">
+          <input class="input" type="text" placeholder="Search for products, brands and more" />
+          <div class="search__icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+        </form>
+        <div class="nav-buttons"></div>
+      </div>
+    </header>
 
-      <div class="nav-buttons">
+    <header class="header">
+      <h1 style="margin-left: 100px;">Women's Fashion</h1>
+    </header>
 
-        
+    <section class="shop-category" style="margin-left: 100px; padding: 40px;">
+      <h2>Shop by Category</h2>
+      <div class="category-row">
+        <div class="category-block" id="filter-sarees">
+          <img src="image/saree[1].jpg" alt="Sarees">
+          <p>Sarees</p>
+        </div>
+        <div class="category-block" id="filter-lehenga">
+          <img src="image/lehenga[1].jpg" alt="Lehenga">
+          <p>Lehenga</p>
+        </div>
+        <div class="category-block" id="filter-jeans">
+          <img src="image/w_jeans[1].jpg" alt="Women Jeans">
+          <p>Women Jeans</p>
+        </div>
+        <div class="category-block" id="filter-kurtis">
+          <img src="image/kurta[1].jpg" alt="Kurtis">
+          <p>Kurtis</p>
+        </div>
+        <div class="category-block" id="filter-footwear">
+          <img src="image/wshoe[2].jpg" alt="Footwear">
+          <p>Footwear</p>
+        </div>
       </div>
-    </div>
-  </header>
+    </section>
 
-  <!-- Header -->
-  <header class="header">
-    <h1 style="margin-left: 100px;">Women's Fashion</h1>
-  </header>
+    <section class="product-section">
+      <h3 style="margin-left: 100px;">All Women's Products</h3>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
 
-  <!-- Shop by Category -->
-  <section class="shop-category" style="margin-left: 100px; padding: 40px;">
-    <h2>Shop by Category</h2>
-    <div class="category-row">
-      <div class="category-block" id="filter-sarees">
-        <img src="image/saree[1].jpg" alt="Sarees">
-        <p>Sarees</p>
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
       </div>
-      <div class="category-block" id="filter-lehenga">
-        <img src="image/lehenga[1].jpg" alt="Lehenga">
-        <p>Lehenga</p>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
       </div>
-      <div class="category-block" id="filter-jeans">
-        <img src="image/w_jeans[1].jpg" alt="Women Jeans">
-        <p>Women Jeans</p>
-      </div>
-      <div class="category-block" id="filter-kurtis">
-        <img src="image/kurta[1].jpg" alt="Kurtis">
-        <p>Kurtis</p>
-      </div>
-      <div class="category-block" id="filter-footwear">
-        <img src="image/wshoe[2].jpg" alt="Footwear">
-        <p>Footwear</p>
-      </div>
-    </div>
-  </section>
+    </footer>
+  </div>
 
-  <!-- Product Section -->
-  <section class="product-section">
-    <h3 style="margin-left: 100px;">All Women's Products</h3>
-    <div class="product-grid">
-
-      <!-- Sarees -->
-      <div class="product-item sarees" onclick="handleProductClick('Silk Saree', '₹1499', 'imgwomen/s1.jpeg')">
-        <img src="imgwomen/s1.jpeg" alt="Saree">
-        <p>Silk Saree</p><p>₹1499</p>
-      </div>
-      <div class="product-item sarees" onclick="handleProductClick('Cotton Saree', '₹1199', 'imgwomen/s2.jpeg')">
-        <img src="imgwomen/s2.jpeg" alt="Saree">
-        <p>Cotton Saree</p><p>₹1199</p>
-      </div>
-      <div class="product-item sarees" onclick="handleProductClick('Partywear Saree', '₹1899', 'imgwomen/s3.jpeg')">
-        <img src="imgwomen/s3.jpeg" alt="Saree">
-        <p>Partywear Saree</p><p>₹1899</p>
-      </div>
-      <div class="product-item sarees" onclick="handleProductClick('Printed Saree', '₹999', 'imgwomen/s4.jpeg')">
-        <img src="imgwomen/s4.jpeg" alt="Saree">
-        <p>Printed Saree</p><p>₹999</p>
-      </div>
-      <div class="product-item sarees" onclick="handleProductClick('Banarasi Saree', '₹2099', 'imgwomen/s5.jpeg')">
-        <img src="imgwomen/s5.jpeg" alt="Saree">
-        <p>Banarasi Saree</p><p>₹2099</p>
-      </div>
-      <div class="product-item sarees" onclick="handleProductClick('Designer Saree', '₹2499', 'imgwomen/s6.jpeg')">
-        <img src="imgwomen/s6.jpeg" alt="Saree">
-        <p>Designer Saree</p><p>₹2499</p>
-      </div>
-
-      <!-- Lehenga -->
-      <div class="product-item lehenga" onclick="handleProductClick('Bridal Lehenga', '₹4999', 'imgwomen/l1.jpeg')">
-        <img src="imgwomen/l1.jpeg" alt="Lehenga">
-        <p>Bridal Lehenga</p><p>₹4999</p>
-      </div>
-      <div class="product-item lehenga" onclick="handleProductClick('Festive Lehenga', '₹2999', 'imgwomen/l2.jpeg')">
-        <img src="imgwomen/l2.jpeg" alt="Lehenga">
-        <p>Festive Lehenga</p><p>₹2999</p>
-      </div>
-      <div class="product-item lehenga" onclick="handleProductClick('Anarkali Lehenga', '₹3499', 'imgwomen/l3.jpeg')">
-        <img src="imgwomen/l3.jpeg" alt="Lehenga">
-        <p>Anarkali Lehenga</p><p>₹3499</p>
-      </div>
-      <div class="product-item lehenga" onclick="handleProductClick('Net Lehenga', '₹2899', 'imgwomen/l4.jpeg')">
-        <img src="imgwomen/l4.jpeg" alt="Lehenga">
-        <p>Net Lehenga</p><p>₹2899</p>
-      </div>
-      <div class="product-item lehenga" onclick="handleProductClick('Floral Lehenga', '₹3199', 'imgwomen/l5.jpeg')">
-        <img src="imgwomen/l5.jpeg" alt="Lehenga">
-        <p>Floral Lehenga</p><p>₹3199</p>
-      </div>
-      <div class="product-item lehenga" onclick="handleProductClick('Designer Lehenga', '₹3799', 'imgwomen/l6.jpeg')">
-        <img src="imgwomen/l6.jpeg" alt="Lehenga">
-        <p>Designer Lehenga</p><p>₹3799</p>
-      </div>
-
-      <!-- Jeans -->
-      <div class="product-item jeans" onclick="handleProductClick('High Waist Jeans', '₹999', 'imgwomen/j1.jpeg')">
-        <img src="imgwomen/j1.jpeg" alt="Jeans">
-        <p>High Waist Jeans</p><p>₹999</p>
-      </div>
-      <div class="product-item jeans" onclick="handleProductClick('Slim Fit Jeans', '₹1099', 'imgwomen/j2.jpeg')">
-        <img src="imgwomen/j2.jpeg" alt="Jeans">
-        <p>Slim Fit Jeans</p><p>₹1099</p>
-      </div>
-      <div class="product-item jeans" onclick="handleProductClick('Ripped Jeans', '₹1199', 'imgwomen/j3.jpeg')">
-        <img src="imgwomen/j3.jpeg" alt="Jeans">
-        <p>Ripped Jeans</p><p>₹1199</p>
-      </div>
-      <div class="product-item jeans" onclick="handleProductClick('Bootcut Jeans', '₹1249', 'imgwomen/j4.jpeg')">
-        <img src="imgwomen/j4.jpeg" alt="Jeans">
-        <p>Bootcut Jeans</p><p>₹1249</p>
-      </div>
-      <div class="product-item jeans" onclick="handleProductClick('Casual Fit', '₹999', 'imgwomen/j5.jpeg')">
-        <img src="imgwomen/j5.jpeg" alt="Jeans">
-        <p>Casual Fit</p><p>₹999</p>
-      </div>
-      <div class="product-item jeans" onclick="handleProductClick('Straight Jeans', '₹1299', 'imgwomen/j6.jpeg')">
-        <img src="imgwomen/j6.jpeg" alt="Jeans">
-        <p>Straight Jeans</p><p>₹1299</p>
-      </div>
-
-      <!-- Kurtis -->
-      <div class="product-item kurtis" onclick="handleProductClick('Printed Kurti', '₹899', 'imgwomen/k1.jpeg')">
-        <img src="imgwomen/k1.jpeg" alt="Kurti">
-        <p>Printed Kurti</p><p>₹899</p>
-      </div>
-      <div class="product-item kurtis" onclick="handleProductClick('Anarkali Kurti', '₹1199', 'imgwomen/k2.jpeg')">
-        <img src="imgwomen/k2.jpeg" alt="Kurti">
-        <p>Anarkali Kurti</p><p>₹1199</p>
-      </div>
-      <div class="product-item kurtis" onclick="handleProductClick('Casual Kurti', '₹799', 'imgwomen/k3.jpeg')">
-        <img src="imgwomen/k3.jpeg" alt="Kurti">
-        <p>Casual Kurti</p><p>₹799</p>
-      </div>
-      <div class="product-item kurtis" onclick="handleProductClick('Designer Kurti', '₹1499', 'imgwomen/k4.jpeg')">
-        <img src="imgwomen/k4.jpeg" alt="Kurti">
-        <p>Designer Kurti</p><p>₹1499</p>
-      </div>
-      <div class="product-item kurtis" onclick="handleProductClick('Floral Kurti', '₹999', 'imgwomen/k5.jpeg')">
-        <img src="imgwomen/k5.jpeg" alt="Kurti">
-        <p>Floral Kurti</p><p>₹999</p>
-      </div>
-      <div class="product-item kurtis" onclick="handleProductClick('Festive Kurti', '₹1349', 'imgwomen/k6.jpeg')">
-        <img src="imgwomen/k6.jpeg" alt="Kurti">
-        <p>Festive Kurti</p><p>₹1349</p>
-      </div>
-
-      <!-- Footwear -->
-      <div class="product-item footwear" onclick="handleProductClick('Heels Combo', '₹1499', 'imgwomen/f1.jpeg')">
-        <img src="imgwomen/f1.jpeg" alt="Footwear">
-        <p>Heels Combo</p><p>₹1499</p>
-      </div>
-      <div class="product-item footwear" onclick="handleProductClick('Flats Fashion', '₹799', 'imgwomen/f2.jpeg')">
-        <img src="imgwomen/f2.jpeg" alt="Footwear">
-        <p>Flats Fashion</p><p>₹799</p>
-      </div>
-      <div class="product-item footwear" onclick="handleProductClick('Kolhapuri Sandals', '₹999', 'imgwomen/f3.jpeg')">
-        <img src="imgwomen/f3.jpeg" alt="Footwear">
-        <p>Kolhapuri Sandals</p><p>₹999</p>
-      </div>
-      <div class="product-item footwear" onclick="handleProductClick('Slip-on Sneakers', '₹1099', 'imgwomen/f4.jpeg')">
-        <img src="imgwomen/f4.jpeg" alt="Footwear">
-        <p>Slip-on Sneakers</p><p>₹1099</p>
-      </div>
-      <div class="product-item footwear" onclick="handleProductClick('Ballet Flats', '₹899', 'imgwomen/f5.jpeg')">
-        <img src="imgwomen/f5.jpeg" alt="Footwear">
-        <p>Ballet Flats</p><p>₹899</p>
-      </div>
-      <div class="product-item footwear" onclick="handleProductClick('Block Heels', '₹1299', 'imgwomen/f6.jpeg')">
-        <img src="imgwomen/f6.jpeg" alt="Footwear">
-        <p>Block Heels</p><p>₹1299</p>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- JS Filter & Click Logic -->
   <script>
     const filters = {
       "filter-sarees": "sarees",
@@ -247,39 +132,27 @@
       localStorage.setItem('productImage', image);
       window.location.href = 'product.html';
     }
+
+    // Fetch and display women's products
+    fetch("http://localhost:5000/api/products/women")
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById("product-grid");
+        data.forEach(product => {
+          const item = document.createElement("div");
+          item.className = `product-item ${product.subcategory}`;
+          item.onclick = () => handleProductClick(product.name, product.price, product.image);
+
+          item.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <p>${product.name}</p>
+            <p>${product.price}</p>
+          `;
+
+          grid.appendChild(item);
+        });
+      })
+      .catch(error => console.error("Error loading women's products:", error));
   </script>
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-          <div class="footer-column">
-            <h4>ABOUT</h4>
-            <p>Contact Us</p>
-            <p>About Us</p>
-            <p>Careers</p>
-          </div>
-          <div class="footer-column">
-            <h4>HELP</h4>
-            <p>Payments</p>
-            <p>Shipping</p>
-            <p>Returns</p>
-          </div>
-          <div class="footer-column">
-            <h4>POLICY</h4>
-            <p>Return Policy</p>
-            <p>Terms Of Use</p>
-            <p>Privacy</p>
-          </div>
-          <div class="footer-column">
-            <h4>CONTACT</h4>
-            <p>Puttur, Karnataka</p>
-            <p>6282695997</p>
-            <p>clickkart@gmail.com</p>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 Clickkart.com</p>
-        </div>
-      </footer>
-      </div>
 </body>
 </html>
