@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,76 +10,108 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css" />
+
+ <style>
+  /* Fullscreen login overlay */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.4s ease-out;
+  }
+
+  /* Fade-in animation */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Login box styling */
+  #login-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    animation: scaleUp 0.4s ease-out;
+  }
+
+  /* Scale-up animation */
+  @keyframes scaleUp {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  #login-box h2 {
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #333;
+  }
+
+  #login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  #login-box input:focus {
+    outline: none;
+    border-color: #ff6600;
+    box-shadow: 0 0 5px rgba(255, 102, 0, 0.4);
+  }
+
+  #login-box button {
+    background: #ff6600;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: background 0.3s ease, transform 0.1s ease;
+  }
+
+  #login-box button:hover {
+    background: #e65500;
+    transform: translateY(-1px);
+  }
+
+  .toggle-form p {
+    font-size: 14px;
+    margin-top: 10px;
+    color: #666;
+  }
+
+  .toggle-form span {
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .toggle-form span:hover {
+    color: #0056b3;
+  }
+</style>
+
 </head>
 <body>
 
-  <!-- Sidebar Menu -->
-  <div class="menu">
-    <ul class="menu-content">
-      <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
-      <li><a href="wishlist.html"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
-      <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
-      <li><a href="orders.html"><i class="fa-solid fa-box"></i> Orders</a></li>
-      <li><a href="logout.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <header>
-      <div class="navBar">
-        <div class="logo">
-          <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="100" />
-        </div>
-        <form class="search__form" id="search-form">
-          <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
-          <div class="search__icon" id="search-icon">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
-        </form>
-        <div class="nav-buttons">
-          <button class="login-btn" id="login-btn">Login</button>
-        </div>
-      </div>
-    </header>
-
-    <section class="trending-section">
-      <h2 class="trending-heading">Trending Now</h2>
-      <div class="carousel-wrapper">
-        <div class="carousel-track">
-          <div class="carousel-item"><img src="image/image1.png" alt="1" /></div>
-          <div class="carousel-item"><img src="image/image2.png" alt="2" /></div>
-          <div class="carousel-item"><img src="image/image3.png" alt="3" /></div>
-          <div class="carousel-item"><img src="image/image4.png" alt="4" /></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="category-menu">
-      <h2>Shop Now!!</h2>
-      <div class="categories">
-        <div class="category"><a href="men.html"><img src="image/men.jpg" alt="Men" /><h3>Men</h3></a></div>
-        <div class="category"><a href="women.html"><img src="image/women.jpg" alt="Women" /><h3>Women</h3></a></div>
-        <div class="category"><a href="kids.html"><img src="image/kid.jpg" alt="Kids" /><h3>Kids</h3></a></div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-grid">
-        <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
-        <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
-        <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
-        <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
-      </div>
-      <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
-    </footer>
-  </div>
-
-  <!-- Login/Sign Up Modal -->
-  <div class="login-modal" id="login-modal">
-    <div class="login-modal-content">
-      <span class="close-modal" id="close-modal">&times;</span>
+  <!-- Login Overlay -->
+  <div id="login-overlay">
+    <div id="login-box">
       <h2 id="form-title">Login</h2>
       <form id="auth-form">
         <input type="email" id="email" name="email" placeholder="Email" required />
@@ -88,28 +119,83 @@
         <button type="submit" id="submit-btn">Login</button>
       </form>
       <div class="toggle-form">
-        <p><span class="toggle" id="toggle-signup">Don't have an account? Sign Up</span></p>
+        <p><span class="toggle" id="toggle-signup" style="color:blue;cursor:pointer;">Don't have an account? Sign Up</span></p>
       </div>
     </div>
   </div>
 
-  <!-- Scripts -->
+  <!-- Main UI -->
+  <div id="main-ui" style="display:none;">
+    <!-- Sidebar Menu -->
+    <div class="menu">
+      <ul class="menu-content">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+        <li><a href="wishlist.html"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
+        <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+        <li><a href="orders.html"><i class="fa-solid fa-box"></i> Orders</a></li>
+        <li><a href="#" id="logout-link"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <div class="navBar">
+          <div class="logo">
+            <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="100" />
+          </div>
+          <form class="search__form" id="search-form">
+            <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
+            <div class="search__icon" id="search-icon">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+          </form>
+        </div>
+      </header>
+
+      <section class="trending-section">
+        <h2 class="trending-heading">Trending Now</h2>
+        <div class="carousel-wrapper">
+          <div class="carousel-track">
+            <div class="carousel-item"><img src="image/image1.png" alt="1" /></div>
+            <div class="carousel-item"><img src="image/image2.png" alt="2" /></div>
+            <div class="carousel-item"><img src="image/image3.png" alt="3" /></div>
+            <div class="carousel-item"><img src="image/image4.png" alt="4" /></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="category-menu">
+        <h2>Shop Now!!</h2>
+        <div class="categories">
+          <div class="category"><a href="men.html"><img src="image/men.jpg" alt="Men" /><h3>Men</h3></a></div>
+          <div class="category"><a href="women.html"><img src="image/women.jpg" alt="Women" /><h3>Women</h3></a></div>
+          <div class="category"><a href="kids.html"><img src="image/kid.jpg" alt="Kids" /><h3>Kids</h3></a></div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer>
+        <div class="footer-grid">
+          <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
+          <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
+          <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
+          <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
+        </div>
+        <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
+      </footer>
+    </div>
+  </div>
+
   <script>
-    const loginBtn = document.getElementById("login-btn");
-    const loginModal = document.getElementById("login-modal");
-    const closeModal = document.getElementById("close-modal");
+    const loginOverlay = document.getElementById("login-overlay");
+    const mainUI = document.getElementById("main-ui");
     const toggleSignup = document.getElementById("toggle-signup");
     const formTitle = document.getElementById("form-title");
     const authForm = document.getElementById("auth-form");
+    const logoutLink = document.getElementById("logout-link");
 
-    loginBtn.addEventListener("click", () => {
-      loginModal.style.display = "block";
-    });
-
-    closeModal.addEventListener("click", () => {
-      loginModal.style.display = "none";
-    });
-
+    // Show signup form toggle
     toggleSignup.addEventListener("click", () => {
       if (formTitle.innerText === "Login") {
         formTitle.innerText = "Sign Up";
@@ -129,6 +215,7 @@
       }
     });
 
+    // Handle login/signup
     document.addEventListener("submit", async function (e) {
       if (e.target.id !== "auth-form") return;
       e.preventDefault();
@@ -155,9 +242,9 @@
         const data = await res.json();
 
         if (res.ok) {
-          alert(data.message);
           localStorage.setItem("clickkart-user", email);
-          window.location.href = "profile.html";
+          loginOverlay.style.display = "none";
+          mainUI.style.display = "block";
         } else {
           alert(data.message || "Something went wrong.");
         }
@@ -165,39 +252,23 @@
         console.error(error);
         alert("Error connecting to server.");
       }
-
-      loginModal.style.display = "none";
     });
 
-    // Auto open login modal if user not logged in
+    // Check login on page load
     window.addEventListener("DOMContentLoaded", () => {
       const user = localStorage.getItem("clickkart-user");
-      if (!user) {
-        loginModal.style.display = "block";
+      if (user) {
+        loginOverlay.style.display = "none";
+        mainUI.style.display = "block";
       }
     });
 
-    // Search functionality
-    function doSearch() {
-      const query = document.getElementById("search-input").value.trim();
-      if (query) {
-        window.location.href = `search.html?query=${encodeURIComponent(query)}`;
-      }
-    }
-
-    const searchForm = document.getElementById("search-form");
-    const searchIcon = document.getElementById("search-icon");
-
-    // Submit on Enter
-    searchForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      doSearch();
-    });
-
-    // Submit on icon click
-    searchIcon.addEventListener("click", function () {
-      doSearch();
+    // Logout
+    logoutLink.addEventListener("click", () => {
+      localStorage.removeItem("clickkart-user");
+      location.reload();
     });
   </script>
+
 </body>
 </html>

@@ -5,24 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orders - ClickKart</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css" />
+
   <style>
-    .orders-list { display:flex; flex-wrap:wrap; gap:20px; padding:20px; }
-    .order-item { border:1px solid #ddd; padding:15px; border-radius:8px; width:260px; background:#fff; }
-    .order-item img { width:100%; height:140px; object-fit:cover; border-radius:6px; }
-    .order-item h3 { margin:8px 0; font-size:18px; }
-    .order-item p { margin:4px 0; font-size:14px; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f5f5;
+    }
+
+    .orders-section {
+      padding: 20px;
+    }
+
+    .orders-section h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .orders-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+
+    .order-item {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .order-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .order-item img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .order-details {
+      padding: 15px;
+    }
+
+    .order-details h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 5px 0 10px;
+      line-height: 1.3;
+      min-height: 44px; /* keeps title height consistent */
+      overflow: hidden;
+    }
+
+    .order-details p {
+      font-size: 14px;
+      margin: 4px 0;
+      color: #444;
+    }
+
+    .order-details strong {
+      color: #000;
+    }
+
+    @media (max-width: 500px) {
+      .order-item img {
+        height: 180px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="menu">
     <ul class="menu-content">
-      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
-      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
-      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
-      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
-      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="wishlist.html"><i class="fa-solid fa-heart"></i> Wishlist</a></li>
+      <li><a href="profile.html"><i class="fa-solid fa-user"></i> Profile</a></li>
+      <li><a href="orders.html"><i class="fa-solid fa-box"></i> Orders</a></li>
+      <li><a href="logout.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -30,7 +97,6 @@
     <header>
       <div class="navBar">
         <div class="logo"><img src="image/logo.png" class="clickkart-logo" alt="" height="100" /></div>
-        <form class="search__form"><input class="input" type="text" placeholder="Search for products, brands and more" /><div class="search__icon"><i class="fa-solid fa-magnifying-glass"></i></div></form>
         <div class="nav-buttons"><button class="login-btn" id="login-btn">Login</button></div>
       </div>
     </header>
@@ -86,12 +152,14 @@
           orderDiv.className = "order-item";
           orderDiv.innerHTML = `
             <img src="${order.image}" alt="${order.name}">
-            <h3>${order.name}</h3>
-            <p><strong>Price:</strong> ${order.price}</p>
-            <p><strong>Qty:</strong> ${order.quantity || 1}</p>
-            <p><strong>Pincode:</strong> ${order.pincode || "-"}</p>
-            <p style="font-size:12px;"><strong>Ordered On:</strong> ${order.orderTime || "-"}</p>
-            <p style="font-size:12px;"><strong>Address:</strong> ${order.address || "-"}</p>
+            <div class="order-details">
+              <h3>${order.name}</h3>
+              <p><strong>Price:</strong> ${order.price}</p>
+              <p><strong>Qty:</strong> ${order.quantity || 1}</p>
+              <p><strong>Pincode:</strong> ${order.pincode || "-"}</p>
+              <p><strong>Ordered On:</strong> ${order.ordered_on || "-"}</p>
+              <p><strong>Address:</strong> ${order.address || "-"}</p>
+            </div>
           `;
           container.appendChild(orderDiv);
         });
@@ -101,9 +169,7 @@
       }
     }
 
-    window.onload = function () {
-      fetchOrders();
-    };
+    window.onload = fetchOrders;
   </script>
 </body>
 </html>

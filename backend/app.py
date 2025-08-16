@@ -153,24 +153,100 @@ def buy_product():
     return jsonify({"message": "Order placed successfully"})
 
 # -------------------- SEARCH --------------------
+
 @app.route("/api/search", methods=["GET"])
 def search_products():
     query = request.args.get("query", "").strip()
     if not query:
         return jsonify([])
 
-    products_list = list(products.find({
-        "$or": [
-            {"name": {"$regex": query, "$options": "i"}},       # Search in product name
-            {"category": {"$regex": query, "$options": "i"}},   # Search in category
-            {"subcategory": {"$regex": query, "$options": "i"}} # Search in subcategory
+    # Split search query into separate words and convert to lowercase
+    words = [word.lower() for word in query.split() if word]
+
+    # Create more flexible search patterns
+    search_conditions = []
+    
+    for word in words:
+        # Search in multiple fields with case-insensitive regex
+        word_conditions = [
+            {"name": {"$regex": word, "$options": "i"}},
+            {"category": {"$regex": word, "$options": "i"}},
+            {"subcategory": {"$regex": word, "$options": "i"}}
         ]
-    }))
+        
+        # Add specific mappings for common search terms
+        category_mappings = {
+            "men": "men",
+            "mens": "men", 
+            "man": "men",
+            "male": "men",
+            "women": "women",
+            "womens": "women",
+            "woman": "women",
+            "female": "women",
+            "kids": "kids",
+            "children": "kids",
+            "child": "kids",
+            "tshirt": "tshirt",
+            "t-shirt": "tshirt",
+            "tee": "tshirt",
+            "shirt": ["tshirt", "formal"],
+            "formal": "formal",
+            "jeans": "jeans",
+            "denim": "jeans",
+            "pants": ["jeans", "joggers"],
+            "joggers": "joggers",
+            "trackpants": "joggers",
+            "footwear": "footwear",
+            "shoes": "footwear",
+            "sneakers": "footwear",
+            "sandals": "footwear",
+            "saree": "sarees",
+            "sarees": "sarees",
+            "lehenga": "lehenga",
+            "kurti": "kurtis",
+            "kurtis": "kurtis",
+            "upperwear": "upperwear",
+            "bottomwear": "bottomwear"
+        }
+        
+        # Check if the word matches any category mapping
+        if word in category_mappings:
+            mapped_values = category_mappings[word]
+            if isinstance(mapped_values, list):
+                for val in mapped_values:
+                    word_conditions.extend([
+                        {"category": {"$regex": val, "$options": "i"}},
+                        {"subcategory": {"$regex": val, "$options": "i"}}
+                    ])
+            else:
+                word_conditions.extend([
+                    {"category": {"$regex": mapped_values, "$options": "i"}},
+                    {"subcategory": {"$regex": mapped_values, "$options": "i"}}
+                ])
+        
+        search_conditions.append({"$or": word_conditions})
+    
+    # Use $and to ensure all words are matched (but any field can match each word)
+    if search_conditions:
+        query_filter = {"$and": search_conditions}
+    else:
+        return jsonify([])
 
-    for p in products_list:
-        p["_id"] = str(p["_id"])
-    return jsonify(products_list)
-
+    try:
+        products_list = list(products.find(query_filter))
+        
+        # Convert ObjectId to string for JSON serialization
+        for p in products_list:
+            p["_id"] = str(p["_id"])
+            
+        # Sort by relevance (you can implement custom scoring here)
+        # For now, just return the results
+        return jsonify(products_list)
+        
+    except Exception as e:
+        print(f"Search error: {e}")
+        return jsonify([])
 
 # -------------------- RUN APP --------------------
 if __name__ == "__main__":

@@ -15,6 +15,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="stylesheet" href="style.css">
+  <script src="js/search.js"></script>
 </head>
 
 <body>
@@ -35,10 +36,7 @@
       <div class="logo">
         <img src="image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
       </div>
-      <form class="search__form">
-        <input class="input" type="text" placeholder="Search for products, brands and more" />
-        <div class="search__icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-      </form>
+
     </header>
 
     <!-- Page Header -->
@@ -114,7 +112,7 @@
     async function loadProducts() {
       const grid = document.getElementById("product-grid");
       try {
-        const res = await fetch("http://localhost:5000/api/products?gender=men");
+       const res = await fetch("http://localhost:5000/api/products/men");
         const products = await res.json();
         products.forEach(p => {
           const item = document.createElement("div");
