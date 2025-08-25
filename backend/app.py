@@ -69,8 +69,10 @@ def get_user(email):
 @app.route("/api/products", methods=["GET"])
 def get_products():
     category = request.args.get("category")
-    filter_query = {"category": category} if category else {}
-    products_list = list(products.find(filter_query))
+    query = {}
+    if category:
+        query["category"] = {"$regex": category, "$options": "i"}  # case-insensitive filter
+    products_list = list(products.find(query))
     for p in products_list:
         p["_id"] = str(p["_id"])
     return jsonify(products_list)
@@ -78,7 +80,7 @@ def get_products():
 # Category-specific product routes
 @app.route("/api/products/<category>", methods=["GET"])
 def get_products_by_category(category):
-    products_list = list(products.find({"category": category}))
+    products_list = list(products.find({"category": {"$regex": category, "$options": "i"}}))
     for p in products_list:
         p["_id"] = str(p["_id"])
     return jsonify(products_list)
@@ -102,7 +104,6 @@ def get_wishlist_by_email(email):
 @app.route("/api/wishlist", methods=["POST"])
 def add_to_wishlist():
     data = request.get_json()
-    # Check if item already exists in wishlist
     existing = wishlist.find_one({"email": data["email"], "name": data["name"]})
     if existing:
         return jsonify({"message": "Item already in wishlist"})
@@ -144,7 +145,6 @@ def place_order():
     orders.insert_one(data)
     return jsonify({"message": "Order placed successfully"})
 
-# Buy endpoint for product.js
 @app.route("/api/buy", methods=["POST"])
 def buy_product():
     data = request.get_json()
@@ -153,64 +153,34 @@ def buy_product():
     return jsonify({"message": "Order placed successfully"})
 
 # -------------------- SEARCH --------------------
-
 @app.route("/api/search", methods=["GET"])
 def search_products():
     query = request.args.get("query", "").strip()
     if not query:
         return jsonify([])
 
-    # Split search query into separate words and convert to lowercase
     words = [word.lower() for word in query.split() if word]
-
-    # Create more flexible search patterns
     search_conditions = []
     
     for word in words:
-        # Search in multiple fields with case-insensitive regex
         word_conditions = [
             {"name": {"$regex": word, "$options": "i"}},
             {"category": {"$regex": word, "$options": "i"}},
             {"subcategory": {"$regex": word, "$options": "i"}}
         ]
-        
-        # Add specific mappings for common search terms
         category_mappings = {
-            "men": "men",
-            "mens": "men", 
-            "man": "men",
-            "male": "men",
-            "women": "women",
-            "womens": "women",
-            "woman": "women",
-            "female": "women",
-            "kids": "kids",
-            "children": "kids",
-            "child": "kids",
-            "tshirt": "tshirt",
-            "t-shirt": "tshirt",
-            "tee": "tshirt",
-            "shirt": ["tshirt", "formal"],
-            "formal": "formal",
-            "jeans": "jeans",
-            "denim": "jeans",
-            "pants": ["jeans", "joggers"],
-            "joggers": "joggers",
-            "trackpants": "joggers",
-            "footwear": "footwear",
-            "shoes": "footwear",
-            "sneakers": "footwear",
-            "sandals": "footwear",
-            "saree": "sarees",
-            "sarees": "sarees",
-            "lehenga": "lehenga",
-            "kurti": "kurtis",
-            "kurtis": "kurtis",
-            "upperwear": "upperwear",
-            "bottomwear": "bottomwear"
+            "men": "men", "mens": "men", "man": "men", "male": "men",
+            "women": "women", "womens": "women", "woman": "women", "female": "women",
+            "kids": "kids", "children": "kids", "child": "kids",
+            "tshirt": "tshirt", "t-shirt": "tshirt", "tee": "tshirt",
+            "shirt": ["tshirt", "formal"], "formal": "formal",
+            "jeans": "jeans", "denim": "jeans", "pants": ["jeans", "joggers"],
+            "joggers": "joggers", "trackpants": "joggers",
+            "footwear": "footwear", "shoes": "footwear", "sneakers": "footwear", "sandals": "footwear",
+            "saree": "sarees", "sarees": "sarees", "lehenga": "lehenga",
+            "kurti": "kurtis", "kurtis": "kurtis",
+            "upperwear": "upperwear", "bottomwear": "bottomwear"
         }
-        
-        # Check if the word matches any category mapping
         if word in category_mappings:
             mapped_values = category_mappings[word]
             if isinstance(mapped_values, list):
@@ -224,10 +194,8 @@ def search_products():
                     {"category": {"$regex": mapped_values, "$options": "i"}},
                     {"subcategory": {"$regex": mapped_values, "$options": "i"}}
                 ])
-        
         search_conditions.append({"$or": word_conditions})
     
-    # Use $and to ensure all words are matched (but any field can match each word)
     if search_conditions:
         query_filter = {"$and": search_conditions}
     else:
@@ -235,15 +203,9 @@ def search_products():
 
     try:
         products_list = list(products.find(query_filter))
-        
-        # Convert ObjectId to string for JSON serialization
         for p in products_list:
             p["_id"] = str(p["_id"])
-            
-        # Sort by relevance (you can implement custom scoring here)
-        # For now, just return the results
         return jsonify(products_list)
-        
     except Exception as e:
         print(f"Search error: {e}")
         return jsonify([])
