@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClickKart - Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ClickKart API client (JWT + all backend calls) -->
+  <script src="api.js"></script>
+
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-box">
+      <h2 id="form-title">Login</h2>
+      <form id="auth-form">
+        <input type="email" id="email" name="email" placeholder="Email" required />
+        <input type="password" id="password" name="password" placeholder="Password" required />
+        <button type="submit" id="submit-btn">Login</button>
+      </form>
+      <div class="toggle-form">
+        <p><span class="toggle" id="toggle-signup">Don't have an account? Sign Up</span></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggleSignup = document.getElementById("toggle-signup");
+    const formTitle    = document.getElementById("form-title");
+    const authForm     = document.getElementById("auth-form");
+
+    // ── Redirect if already logged in ───────────────────────────────
+    // If a valid JWT is already in localStorage, skip this page entirely.
+    if (isLoggedIn()) {
+      window.location.replace("index.html");
+    }
+
+    // ── Toggle between Login and Sign Up forms ─────────────────────
+    // Preserved exactly: same DOM swap, same innerText toggles.
+    toggleSignup.addEventListener("click", () => {
+      if (formTitle.innerText === "Login") {
+        formTitle.innerText = "Sign Up";
+        authForm.innerHTML = `
+          <input type="text"     id="name"     name="name"     placeholder="Name"     required />
+          <input type="email"    id="email"    name="email"    placeholder="Email"    required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
+          <button type="submit" id="submit-btn">Sign Up</button>
+        `;
+        toggleSignup.innerText = "Already have an account? Login";
+      } else {
+        formTitle.innerText = "Login";
+        authForm.innerHTML = `
+          <input type="email"    id="email"    name="email"    placeholder="Email"    required />
+          <input type="password" id="password" name="password" placeholder="Password" required />
+          <button type="submit" id="submit-btn">Login</button>
+        `;
+        toggleSignup.innerText = "Don't have an account? Sign Up";
+      }
+    });
+
+    // ── Form submission ─────────────────────────────────────────
+    // CHANGED: replaced hardcoded fetch("localhost:5000/api/login") with
+    // apiLogin() / apiRegister() from api.js.
+    // CHANGED: saveSession() stores the JWT instead of just the email string.
+    // CHANGED: redirects to index.html (the main app) instead of profile.html.
+    document.addEventListener("submit", async function (e) {
+      if (e.target.id !== "auth-form") return;
+      e.preventDefault();
+
+      const nameInput = document.getElementById("name");
+      const name      = nameInput ? nameInput.value.trim() : "";
+      const email     = document.getElementById("email").value.trim();
+      const password  = document.getElementById("password").value.trim();
+      const isLogin   = formTitle.innerText === "Login";
+
+      // Disable button and show loading state while request is in flight
+      const btn     = document.getElementById("submit-btn");
+      btn.disabled  = true;
+      btn.innerText = isLogin ? "Logging in..." : "Creating account...";
+
+      try {
+        // apiLogin / apiRegister are defined in api.js
+        const res = isLogin
+          ? await apiLogin(email, password)
+          : await apiRegister(name, email, password);
+
+        // res.data = AuthResponse { token, tokenType, userId, name, email, role }
+        saveSession(res.data);          // stores ck_token + ck_user in localStorage
+        window.location.href = "index.html";  // proceed to main app
+
+      } catch (err) {
+        // apiFetch throws with the backend's message field (e.g. "Invalid email or password.")
+        alert(err.message || "Something went wrong. Please try again.");
+      } finally {
+        btn.disabled  = false;
+        btn.innerText = isLogin ? "Login" : "Sign Up";
+      }
+    });
+  </script>
+
+</body>
+</html>

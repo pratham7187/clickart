@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Women's Fashion - ClickKart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="api.js"></script>
+  <script src="search.js"></script>
+</head>
+
+<body>
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="cart.html"><span><i class="fa-solid fa-cart-shopping"></i></span><span>Cart</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+  <div class="main-content">
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
+        </div>
+        
+        <div class="nav-buttons"></div>
+      </div>
+    </header>
+
+    <header class="header">
+      <h1 style="margin-left: 100px;">Women's Fashion</h1>
+    </header>
+
+    <section class="shop-category" style="margin-left: 100px; padding: 40px;">
+      <h2>Shop by Category</h2>
+      <div class="category-row">
+        <div class="category-block" id="filter-sarees">
+          <img src="images/image/saree[1].jpg" alt="Sarees">
+          <p>Sarees</p>
+        </div>
+        <div class="category-block" id="filter-lehenga">
+          <img src="images/image/lehenga[1].jpg" alt="Lehenga">
+          <p>Lehenga</p>
+        </div>
+        <div class="category-block" id="filter-jeans">
+          <img src="images/image/w_jeans[1].jpg" alt="Women Jeans">
+          <p>Women Jeans</p>
+        </div>
+        <div class="category-block" id="filter-kurtis">
+          <img src="images/image/kurta[1].jpg" alt="Kurtis">
+          <p>Kurtis</p>
+        </div>
+        <div class="category-block" id="filter-footwear">
+          <img src="images/image/wshoe[2].jpg" alt="Footwear">
+          <p>Footwear</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-section">
+      <h3 style="margin-left: 100px;">All Women's Products</h3>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h4>ABOUT</h4>
+          <p>Contact Us</p>
+          <p>About Us</p>
+          <p>Careers</p>
+        </div>
+        <div class="footer-column">
+          <h4>HELP</h4>
+          <p>Payments</p>
+          <p>Shipping</p>
+          <p>Returns</p>
+        </div>
+        <div class="footer-column">
+          <h4>POLICY</h4>
+          <p>Return Policy</p>
+          <p>Terms Of Use</p>
+          <p>Privacy</p>
+        </div>
+        <div class="footer-column">
+          <h4>CONTACT</h4>
+          <p>Puttur, Karnataka</p>
+          <p>6282695997</p>
+          <p>clickkart@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Clickkart.com</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ── Auth guard ─────────────────────────────────────────────────
+    requireAuth();
+
+    // ── Subcategory filter (preserved exactly) ───────────────────────
+    const filters = {
+      "filter-sarees"  : "sarees",
+      "filter-lehenga" : "lehenga",
+      "filter-jeans"   : "jeans",
+      "filter-kurtis"  : "kurtis",
+      "filter-footwear": "footwear"
+    };
+
+    Object.keys(filters).forEach(filterId => {
+      const btn = document.getElementById(filterId);
+      if (btn) {
+        btn.addEventListener("click", function () {
+          const category = filters[filterId];
+          document.querySelectorAll(".product-item").forEach(item => item.style.display = "none");
+          document.querySelectorAll(`.${category}`).forEach(item => item.style.display = "block");
+        });
+      }
+    });
+
+    // ── Navigate to product detail ────────────────────────────────
+    // CHANGED: stores product ID instead of name/price/image strings
+    function goToProduct(productId) {
+      localStorage.setItem("ck_productId", productId);
+      window.location.href = "product.html";
+    }
+
+    // ── Load Women's products from Spring Boot ─────────────────────
+    // CHANGED: was fetch("localhost:5000/api/products/women")
+    // Now uses apiGetProductsByCategory(2) → GET /api/products/category/2
+    async function loadProducts() {
+      const grid = document.getElementById("product-grid");
+      grid.innerHTML = "<p style='padding:20px;color:#888;'>Loading products...</p>";
+      try {
+        const res      = await apiGetProductsByCategory(2); // 2 = Women
+        const products = res.data;
+
+        grid.innerHTML = "";
+        if (!products || products.length === 0) {
+          grid.innerHTML = "<p style='padding:20px;color:#888;'>No products found.</p>";
+          return;
+        }
+
+        products.forEach(p => {
+          const item = document.createElement("div");
+          item.className = `product-item ${(p.subcategory || "").toLowerCase()}`;
+          item.style.cursor = "pointer";
+          item.onclick = () => goToProduct(p.id);
+          item.innerHTML = `
+            <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='image/logo.png'" />
+            <p class="product-name">${p.name}</p>
+            <p class="product-price">${formatPrice(p.price)}</p>
+            <p style="font-size:12px;color:${p.stock > 0 ? '#4caf50' : '#f44336'}">
+              ${p.stock > 0 ? "In Stock" : "Out of Stock"}
+            </p>
+          `;
+          grid.appendChild(item);
+        });
+      } catch (err) {
+        grid.innerHTML = `<p style='padding:20px;color:#e53935;'>Failed to load products: ${err.message}</p>`;
+      }
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

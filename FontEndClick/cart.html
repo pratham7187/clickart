@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart - ClickKart</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- api.js must be first -->
+  <script src="api.js"></script>
+  <script src="search.js"></script>
+
+  <style>
+    /* ── Cart page scoped styles ─────────────────────────────── */
+    body {
+      background: #f1f3f6;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    .cart-page {
+      display: flex;
+      gap: 24px;
+      padding: 28px 32px;
+      align-items: flex-start;
+    }
+
+    /* ── Left: item list ────────────────────────────────────── */
+    .cart-items-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .cart-items-panel h1 {
+      font-size: 1.6rem;
+      color: #222;
+      margin-bottom: 4px;
+    }
+
+    /* ── Individual cart row ────────────────────────────────── */
+    .cart-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      transition: box-shadow 0.2s;
+    }
+
+    .cart-row:hover {
+      box-shadow: 0 4px 18px rgba(254,17,159,0.10);
+    }
+
+    .cart-row img {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+      background: #f5f5f5;
+    }
+
+    .cart-row-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-row-info .item-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cart-row-info .item-price {
+      font-size: 0.95rem;
+      color: #fe119f;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .cart-row-info .item-subtotal {
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    /* ── Quantity stepper ───────────────────────────────────── */
+    .qty-stepper {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .qty-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid #fe119f;
+      background: #fff;
+      color: #fe119f;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+      line-height: 1;
+    }
+
+    .qty-btn:hover:not(:disabled) {
+      background: #fe119f;
+      color: #fff;
+    }
+
+    .qty-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-color: #ccc;
+    }
+
+    .qty-display {
+      width: 36px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #222;
+    }
+
+    /* ── Remove button ──────────────────────────────────────── */
+    .remove-item-btn {
+      background: none;
+      border: none;
+      color: #bbb;
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .remove-item-btn:hover {
+      color: #e53935;
+      background: #fde8e8;
+    }
+
+    /* ── Right: order summary ───────────────────────────────── */
+    .cart-summary-panel {
+      width: 320px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 24px;
+    }
+
+    .summary-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.09);
+    }
+
+    .summary-card h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 12px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .summary-row.total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #222;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 14px;
+      margin-top: 8px;
+    }
+
+    .summary-row.total span:last-child {
+      color: #fe119f;
+    }
+
+    /* ── Action buttons ─────────────────────────────────────── */
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 13px;
+      background: linear-gradient(135deg, #fe119f 0%, #ff6b35 100%);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+
+    .btn-checkout:hover:not(:disabled) {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .btn-checkout:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-clear {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 11px;
+      background: #fff;
+      color: #e53935;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 2px solid #e53935;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-clear:hover:not(:disabled) {
+      background: #e53935;
+      color: #fff;
+    }
+
+    .btn-clear:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* ── Checkout modal overlay ─────────────────────────────── */
+    .checkout-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .checkout-modal.open {
+      display: flex;
+    }
+
+    .checkout-modal-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px 28px;
+      width: 380px;
+      max-width: 95vw;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      animation: modalPop 0.2s ease;
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.92); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .checkout-modal-box h3 {
+      font-size: 1.3rem;
+      color: #fe119f;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .checkout-modal-box label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .checkout-modal-box input,
+    .checkout-modal-box textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+      font-family: inherit;
+      transition: border-color 0.15s;
+      box-sizing: border-box;
+    }
+
+    .checkout-modal-box input:focus,
+    .checkout-modal-box textarea:focus {
+      border-color: #fe119f;
+      outline: none;
+    }
+
+    .checkout-modal-box textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn-modal-confirm {
+      flex: 1;
+      padding: 11px;
+      background: linear-gradient(135deg, #fe119f, #ff6b35);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: opacity 0.15s;
+    }
+
+    .btn-modal-confirm:hover:not(:disabled) { opacity: 0.88; }
+    .btn-modal-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-modal-cancel {
+      flex: 1;
+      padding: 11px;
+      background: #f5f5f5;
+      color: #444;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.15s;
+    }
+
+    .btn-modal-cancel:hover { background: #e8e8e8; }
+
+    /* ── State messages ─────────────────────────────────────── */
+    .state-msg {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+      font-size: 1.1rem;
+    }
+
+    .state-msg i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 16px;
+      color: #ddd;
+    }
+
+    .state-msg.error { color: #e53935; }
+    .state-msg.error i { color: #e53935; }
+
+    .continue-link {
+      display: inline-block;
+      margin-top: 16px;
+      color: #fe119f;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .continue-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="cart.html"><span><i class="fa-solid fa-cart-shopping"></i></span><span>Cart</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+
+  <!-- Main content pushed right of fixed sidebar -->
+  <div class="main-content">
+
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
+        </div>
+        <form class="search__form">
+          <input class="input" type="text" placeholder="Search for products, brands, and more" />
+          <div class="search__icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        </form>
+        <div class="nav-buttons">
+          <button class="login-btn" onclick="window.location.href='index.html'">Home</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cart content -->
+    <div class="cart-page">
+
+      <!-- Left panel: cart items -->
+      <div class="cart-items-panel">
+        <h1><i class="fa-solid fa-cart-shopping" style="color:#fe119f;margin-right:10px;"></i>Your Cart</h1>
+        <div id="cart-items-container">
+          <!-- Populated by cart.js -->
+          <div class="state-msg">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Loading your cart...
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panel: order summary -->
+      <div class="cart-summary-panel">
+        <div class="summary-card">
+          <h2>Order Summary</h2>
+
+          <div class="summary-row">
+            <span>Items</span>
+            <span id="summary-item-count">—</span>
+          </div>
+          <div class="summary-row">
+            <span>Price</span>
+            <span id="summary-subtotal">—</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery</span>
+            <span style="color:#4caf50;font-weight:600;">FREE</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="summary-total">—</span>
+          </div>
+
+          <button class="btn-checkout" id="checkout-btn" disabled>
+            <i class="fa-solid fa-bolt"></i>&nbsp; Proceed to Checkout
+          </button>
+          <button class="btn-clear" id="clear-cart-btn" disabled>
+            <i class="fa-solid fa-trash"></i>&nbsp; Clear Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
+        <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
+        <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
+        <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
+    </footer>
+  </div>
+
+  <!-- Checkout modal -->
+  <div class="checkout-modal" id="checkout-modal">
+    <div class="checkout-modal-box">
+      <h3><i class="fa-solid fa-truck-fast"></i>&nbsp; Delivery Details</h3>
+
+      <label for="modal-pincode">Pincode</label>
+      <input type="text" id="modal-pincode" placeholder="6-digit pincode" maxlength="6" />
+
+      <label for="modal-address">Delivery Address</label>
+      <textarea id="modal-address" placeholder="House no., street, area, city…"></textarea>
+
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" id="modal-cancel-btn">Cancel</button>
+        <button class="btn-modal-confirm" id="modal-confirm-btn">
+          <i class="fa-solid fa-check"></i>&nbsp; Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="cart.js"></script>
+</body>
+</html>

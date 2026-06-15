@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Logging Out... - ClickKart</title>
+  <!-- api.js provides clearSession() -->
+  <script src="api.js"></script>
+</head>
+<body>
+  <p style="font-family:'Poppins',sans-serif;text-align:center;margin-top:20vh;font-size:18px;color:#555;">
+    Logging you out...
+  </p>
+  <script>
+    // clearSession() removes ck_token, ck_user, and all old Flask-era keys
+    clearSession();
+    window.location.replace("index.html");
+  </script>
+</body>
+</html>

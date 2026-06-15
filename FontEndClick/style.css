@@ -1,0 +1,1405 @@
+/* ============================================================
+   ClickKart  —  style.css  v2.0  (Modernized)
+   Brand: ClickKart Pink (#fe119f) + White
+   Font : Poppins (Google Fonts)
+   ============================================================ */
+
+/* ── 1. Design Tokens ────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --pink:          #fe119f;
+  --pink-dark:     #c4006c;
+  --pink-xdark:    #8e0050;
+  --pink-light:    #fff0f9;
+  --pink-mid:      #ffd6ef;
+  --accent:        #ff6b35;
+
+  /* Gradient helpers */
+  --grad-pink:     linear-gradient(135deg, #fe119f 0%, #ff6b35 100%);
+  --grad-sidebar:  linear-gradient(180deg, #fe119f 0%, #c4006c 100%);
+
+  /* Neutrals */
+  --white:         #ffffff;
+  --bg:            #f4f5f9;
+  --bg-card:       #ffffff;
+  --border:        #e8e8f2;
+  --border-light:  #f2f2f8;
+
+  /* Text */
+  --txt-h:         #1a1a2e;
+  --txt-body:      #3a3a5c;
+  --txt-muted:     #8888aa;
+  --txt-link:      #fe119f;
+
+  /* Semantic */
+  --success:       #10b981;
+  --error:         #ef4444;
+  --warning:       #f59e0b;
+
+  /* Shadows */
+  --shadow-xs:     0 1px 3px rgba(0,0,0,0.06);
+  --shadow-sm:     0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:     0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg:     0 8px 32px rgba(0,0,0,0.13);
+  --shadow-pink:   0 6px 24px rgba(254,17,159,0.18);
+
+  /* Radii */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   18px;
+  --r-xl:   24px;
+  --r-full: 9999px;
+
+  /* Sidebar */
+  --sb-w:       72px;
+  --sb-w-open: 240px;
+
+  /* Transition */
+  --t: 0.22s ease;
+}
+
+/* ── 2. Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--txt-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul { list-style: none; }
+
+/* ── 3. Typography ───────────────────────────────────────────────── */
+h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', sans-serif;
+  color: var(--txt-h);
+  line-height: 1.25;
+}
+
+h1 { font-size: 2rem;   font-weight: 700; }
+h2 { font-size: 1.5rem; font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 600; }
+h4 { font-size: 1rem;   font-weight: 600; }
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 24px;
+  padding-left: 14px;
+  border-left: 4px solid var(--pink);
+  letter-spacing: -0.3px;
+}
+
+.price-tag {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--pink);
+}
+
+/* ── 4. Page Layout (sidebar + main) ────────────────────────────── */
+.main-content {
+  margin-left: var(--sb-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left var(--t);
+}
+
+.menu:hover ~ .main-content {
+  margin-left: var(--sb-w-open);
+}
+
+/* Every direct child that is NOT header or footer grows to fill */
+.main-content > *:not(header):not(footer) {
+  flex: 1 1 auto;
+}
+
+/* ── 5. Sidebar ──────────────────────────────────────────────────── */
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: var(--sb-w);
+  background: var(--grad-sidebar);
+  overflow: hidden;
+  transition: width var(--t);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 0 20px rgba(0,0,0,0.12);
+}
+
+.menu:hover {
+  width: var(--sb-w-open);
+}
+
+/* Logo area at top of sidebar */
+.menu::before {
+  content: 'CK';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  min-height: 70px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #fff;
+  letter-spacing: -1px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+.menu-content {
+  padding: 16px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.menu-content li {
+  list-style: none;
+  margin: 4px 8px;
+  border-radius: var(--r-md);
+  transition: background var(--t), transform var(--t);
+}
+
+.menu-content li:hover {
+  background: rgba(255,255,255,0.18);
+  transform: translateX(3px);
+}
+
+.menu-content li.active {
+  background: rgba(255,255,255,0.25);
+}
+
+.menu-content li a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  color: #fff;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Icon — always visible, fixed width so text aligns cleanly */
+.menu-content li a i,
+.menu-content li a span:first-child {
+  width: 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Label text — hidden when sidebar is collapsed */
+.menu-content li a span:last-child,
+.menu-content li a > *:not(i):not(:first-child) {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.menu:hover .menu-content li a span:last-child,
+.menu:hover .menu-content li a > *:not(i):not(:first-child) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Handle old-style sidebar links (text directly after icon, no span wrapper) */
+.menu-content li a {
+  overflow: hidden;
+}
+
+/* ── 6. Navbar ───────────────────────────────────────────────────── */
+.navBar {
+  height: 64px;
+  width: 100%;
+  background: var(--pink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 2px 12px rgba(254,17,159,0.25);
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  gap: 16px;
+}
+
+.clickkart-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ── 7. Search Form ──────────────────────────────────────────────── */
+.search__form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: var(--r-full);
+  padding: 8px 16px;
+  flex: 1;
+  max-width: 520px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: box-shadow var(--t);
+}
+
+.search__form:focus-within {
+  box-shadow: 0 2px 16px rgba(0,0,0,0.16);
+}
+
+.input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  color: var(--txt-h);
+  background: transparent;
+}
+
+.input::placeholder { color: #bbb; }
+
+.search__icon {
+  font-size: 1rem;
+  color: var(--pink);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── 8. Nav Buttons ──────────────────────────────────────────────── */
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.login-btn {
+  background: #fff;
+  color: var(--pink);
+  border: none;
+  padding: 7px 18px;
+  border-radius: var(--r-full);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background var(--t), color var(--t), transform var(--t);
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: var(--pink-light);
+  transform: translateY(-1px);
+}
+
+.cart-icon {
+  font-size: 1.3rem;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 8px;
+  position: relative;
+}
+
+/* ── 9. Buttons System ───────────────────────────────────────────── */
+.btn-primary {
+  background: var(--grad-pink);
+  color: #fff;
+  border: none;
+  padding: 11px 24px;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: opacity var(--t), transform var(--t), box-shadow var(--t);
+  letter-spacing: 0.3px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pink);
+}
+
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  padding: 9px 20px;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background var(--t), color var(--t);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--pink);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: var(--txt-muted);
+  cursor: pointer;
+  transition: color var(--t);
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-ghost:hover { color: var(--error); }
+
+/* ── 10. Card Base ───────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ── 11. Category Section (index.html) ──────────────────────────── */
+.trending-banner {
+  width: 100%;
+  background: #fff;
+  overflow: hidden;
+}
+
+.trending-heading {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  padding: 32px 0 0;
+  letter-spacing: -0.5px;
+}
+
+.carousel-wrapper {
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  animation: scrollBanner 40s linear infinite;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  height: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes scrollBanner {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-400%); }
+}
+
+/* Category menu */
+.category-menu {
+  background: #fff;
+  padding: 40px 32px 48px 32px;
+  margin-left: 0;
+}
+
+.category-menu h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.categories {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform var(--t);
+}
+
+.category:hover { transform: translateY(-6px); }
+
+.category img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--pink-light);
+  box-shadow: 0 4px 16px rgba(254,17,159,0.18);
+  border: 3px solid var(--pink-mid);
+  transition: box-shadow var(--t), border-color var(--t);
+}
+
+.category:hover img {
+  box-shadow: var(--shadow-pink);
+  border-color: var(--pink);
+}
+
+.category h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--txt-h);
+}
+
+/* ── 12. Shop-by-Category Filter Row ────────────────────────────── */
+.shop-category {
+  padding: 40px 24px;
+  background: #fff;
+  margin-bottom: 8px;
+}
+
+.shop-category h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 24px;
+  padding-left: 14px;
+  border-left: 4px solid var(--pink);
+}
+
+.category-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform var(--t);
+  width: 160px;
+}
+
+.category-block:hover { transform: translateY(-5px); }
+
+.category-block img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--t);
+}
+
+.category-block:hover img { box-shadow: var(--shadow-pink); }
+
+.category-block p {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--txt-h);
+}
+
+/* ── 13. Product Grid & Cards ────────────────────────────────────── */
+.product-section {
+  padding: 32px 24px;
+  background: var(--bg);
+}
+
+.product-section h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 24px;
+  padding-left: 14px;
+  border-left: 4px solid var(--pink);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 0;
+}
+
+.product-item {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  /* overflow:hidden removed — it was clipping the stock badge at the card corners */
+  cursor: pointer;
+  transition: transform var(--t), box-shadow var(--t);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.product-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(254,17,159,0.13);
+}
+
+.product-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  /* top corners rounded to match card, image clip handles its own overflow */
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  transition: transform 0.35s ease;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.product-item:hover img { transform: scale(1.04); }
+
+.product-item-body {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--txt-h);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--pink);
+  margin-top: 4px;
+}
+
+/* Stock badge */
+.stock-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--r-full);
+  margin-top: 6px;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.stock-badge.in  { background: #d1fae5; color: #065f46; }
+.stock-badge.out { background: #fee2e2; color: #991b1b; }
+
+/* ── 14. Product Detail Page ─────────────────────────────────────── */
+.product-details {
+  padding: 32px 24px;
+  background: var(--bg);
+  flex: 1;
+}
+
+.product-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  padding: 36px;
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+  align-items: flex-start;
+}
+
+.product-image {
+  flex-shrink: 0;
+  width: 380px;
+}
+
+.product-image img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-info h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+#product-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--pink);
+  margin-bottom: 8px;
+}
+
+#product-stock {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+#product-description {
+  font-size: 0.92rem;
+  color: var(--txt-body);
+  line-height: 1.7;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: var(--bg);
+  border-radius: var(--r-sm);
+}
+
+.product-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.buy-btn {
+  padding: 11px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  background: var(--grad-pink);
+  color: #fff;
+  transition: opacity var(--t), transform var(--t), box-shadow var(--t);
+}
+
+.buy-btn:hover:not(:disabled) {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pink);
+}
+
+.buy-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.wishlist-btn {
+  padding: 11px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid var(--pink);
+  cursor: pointer;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  color: var(--pink);
+  transition: background var(--t), color var(--t);
+}
+
+.wishlist-btn:hover {
+  background: var(--pink);
+  color: #fff;
+}
+
+.product-rating {
+  font-size: 0.9rem;
+  color: var(--txt-body);
+  margin-bottom: 18px;
+}
+
+.product-quantity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.product-quantity label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--txt-h);
+  white-space: nowrap;
+}
+
+.product-quantity input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  transition: border-color var(--t);
+}
+
+.product-quantity input:focus {
+  border-color: var(--pink);
+  outline: none;
+}
+
+/* Pincode + address fields */
+#pincode-input,
+#address-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--txt-body);
+  transition: border-color var(--t), box-shadow var(--t);
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+#pincode-input:focus,
+#address-input:focus {
+  border-color: var(--pink);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(254,17,159,0.10);
+}
+
+#address-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* ── 15. Wishlist Page ───────────────────────────────────────────── */
+.wishlist-page-content {
+  padding: 32px 28px;
+  flex: 1;
+}
+
+.wishlist-page-content h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  padding-left: 14px;
+  border-left: 4px solid var(--pink);
+}
+
+.wishlist-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.wishlist-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.wishlist-item {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--t), box-shadow var(--t);
+  border: none !important;
+  padding: 0 !important;
+}
+
+.wishlist-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.wishlist-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.wishlist-item h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 14px 4px;
+  color: var(--txt-h);
+}
+
+.wishlist-item p {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--pink);
+  padding: 0 14px 8px;
+}
+
+.wishlist-item button {
+  margin: 0 14px 14px;
+  padding: 9px 0;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  width: calc(100% - 28px);
+  transition: opacity var(--t), transform var(--t);
+}
+
+.wishlist-item button:hover { opacity: 0.85; }
+
+.remove-btn {
+  background: #fee2e2 !important;
+  color: var(--error) !important;
+}
+
+.remove-btn:hover {
+  background: var(--error) !important;
+  color: #fff !important;
+}
+
+.wishlist-item .buy-btn {
+  background: var(--grad-pink) !important;
+  color: #fff !important;
+}
+
+/* ── 16. Orders Page ────────────────────────────────────────────── */
+.orders-page-content {
+  padding: 32px 28px;
+  flex: 1;
+}
+
+.orders-page-content h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 28px;
+  padding-left: 14px;
+  border-left: 4px solid var(--pink);
+}
+
+.orders-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.order-item {
+  background: var(--bg-card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform var(--t), box-shadow var(--t);
+  border: none !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.order-details {
+  padding: 20px;
+}
+
+.order-details h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 10px;
+}
+
+.order-details p {
+  font-size: 0.88rem;
+  color: var(--txt-body);
+  margin-bottom: 6px;
+}
+
+.order-details strong {
+  color: var(--txt-h);
+  font-weight: 600;
+}
+
+/* Status badge */
+.status-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: var(--r-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ── 17. Profile Page ────────────────────────────────────────────── */
+.profile-page-content {
+  padding: 40px 28px;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.profile-card {
+  background: var(--bg-card);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+}
+
+.profile-card-header {
+  background: var(--grad-pink);
+  padding: 36px 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  flex-shrink: 0;
+  border: 3px solid rgba(255,255,255,0.5);
+}
+
+.profile-card-header h2 {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.profile-card-header p {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+
+.profile-card-body {
+  padding: 28px 32px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.profile-field:last-child { border-bottom: none; }
+
+.profile-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--txt-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.profile-field span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--txt-h);
+}
+
+.profile-actions {
+  padding: 20px 32px 28px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.profile-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity var(--t), transform var(--t);
+  background: var(--grad-pink);
+  color: #fff;
+  border: none;
+}
+
+.profile-link-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.profile-link-btn.outline {
+  background: transparent;
+  border: 2px solid var(--pink);
+  color: var(--pink);
+}
+
+.profile-link-btn.outline:hover { background: var(--pink); color: #fff; }
+
+/* ── 18. Login / Auth Overlay (index.html) ───────────────────────── */
+#login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.52);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#login-box {
+  background: #fff;
+  padding: 36px 32px;
+  border-radius: var(--r-xl);
+  width: 340px;
+  max-width: 95vw;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+  animation: scaleUp 0.3s ease;
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+#login-box h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+#form-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--txt-muted);
+  margin-bottom: 22px;
+}
+
+#auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#auth-form input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: var(--txt-body);
+  transition: border-color var(--t);
+  background: #fff;
+}
+
+#auth-form input:focus {
+  border-color: var(--pink);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(254,17,159,0.10);
+}
+
+#auth-form button,
+#submit-btn {
+  background: var(--grad-pink);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--t);
+  margin-top: 4px;
+}
+
+#auth-form button:hover,
+#submit-btn:hover { opacity: 0.88; }
+
+#auth-form button:disabled,
+#submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+#toggle-signup {
+  font-size: 0.83rem;
+  color: var(--pink);
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+#toggle-signup:hover { text-decoration: underline; }
+
+/* ── 19. State Messages (loading / empty / error) ────────────────── */
+.state-msg {
+  text-align: center;
+  padding: 64px 20px;
+  color: var(--txt-muted);
+  font-size: 1.05rem;
+}
+
+.state-msg i {
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 16px;
+  color: #ddd;
+}
+
+.state-msg.error { color: var(--error); }
+.state-msg.error i { color: var(--error); }
+
+.continue-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--pink);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.continue-link:hover { text-decoration: underline; }
+
+/* ── 20. Footer ──────────────────────────────────────────────────── */
+footer {
+  background: #0d0e13;
+  color: #c0c0d0;
+  margin-top: auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding: 40px 32px 28px;
+  font-size: 0.87rem;
+}
+
+.footer-column h4 {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.footer-column p {
+  margin-bottom: 8px;
+  color: #9090a8;
+  cursor: pointer;
+  transition: color var(--t);
+}
+
+.footer-column p:hover { color: var(--pink-mid); }
+
+.footer-bottom {
+  background: #06070a;
+  text-align: center;
+  padding: 14px;
+  font-size: 0.8rem;
+  color: #666;
+  border-top: 1px solid #1a1a28;
+}
+
+/* ── 21. Page Heading Bar ────────────────────────────────────────── */
+.page-header {
+  background: #fff;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-header h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--txt-h);
+}
+
+.page-header i {
+  color: var(--pink);
+  font-size: 1.2rem;
+}
+
+/* ── 22. Form Elements ───────────────────────────────────────────── */
+input, textarea, select {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── 23. Utilities ───────────────────────────────────────────────── */
+.text-pink   { color: var(--pink); }
+.text-muted  { color: var(--txt-muted); }
+.text-center { text-align: center; }
+.fw-700      { font-weight: 700; }
+.mt-8        { margin-top: 8px; }
+.mt-16       { margin-top: 16px; }
+
+/* ── 24. Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .product-container {
+    flex-direction: column;
+  }
+
+  .product-image {
+    width: 100%;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 280px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .categories {
+    gap: 20px;
+  }
+
+  .category img {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --sb-w: 60px;
+  }
+
+  .main-content {
+    margin-left: var(--sb-w);
+  }
+
+  .navBar {
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .search__form {
+    display: none;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    padding: 28px 20px 20px;
+  }
+
+  .product-section,
+  .shop-category {
+    padding: 24px 16px;
+  }
+
+  .profile-card-header,
+  .profile-card-body,
+  .profile-actions {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ── 25. Scrollbar Styling ───────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track { background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: var(--pink-mid);
+  border-radius: var(--r-full);
+}
+
+::-webkit-scrollbar-thumb:hover { background: var(--pink); }

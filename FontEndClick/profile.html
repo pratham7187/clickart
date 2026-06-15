@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - ClickKart</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="api.js"></script>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="menu">
+    <ul class="menu-content">
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
+      <li><a href="cart.html"><span><i class="fa-solid fa-cart-shopping"></i></span><span>Cart</span></a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li class="active"><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
+    </ul>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+
+    <!-- Navbar -->
+    <header>
+      <div class="navBar">
+        <div class="logo">
+          <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart" />
+        </div>
+        <div class="nav-buttons">
+          <a href="orders.html" class="login-btn"><i class="fa-solid fa-box"></i> My Orders</a>
+          <a href="logout.html" class="login-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Profile content -->
+    <div class="profile-page-content">
+      <div class="profile-card">
+
+        <!-- Pink header with avatar -->
+        <div class="profile-card-header">
+          <div class="profile-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <h2 id="user-name">Loading…</h2>
+            <p id="user-email-header">…</p>
+          </div>
+        </div>
+
+        <!-- Fields -->
+        <div class="profile-card-body">
+          <div class="profile-field">
+            <label>Full Name</label>
+            <span id="profile-name">—</span>
+          </div>
+          <div class="profile-field">
+            <label>Email Address</label>
+            <span id="user-email">—</span>
+          </div>
+          <div class="profile-field">
+            <label>Account Role</label>
+            <span id="user-role">—</span>
+          </div>
+          <div class="profile-field">
+            <label>Member Since</label>
+            <span>ClickKart Family</span>
+          </div>
+        </div>
+
+        <!-- Quick links -->
+        <div class="profile-actions">
+          <a href="orders.html" class="profile-link-btn">
+            <i class="fa-solid fa-box"></i> My Orders
+          </a>
+          <a href="wishlist.html" class="profile-link-btn">
+            <i class="fa-solid fa-heart"></i> Wishlist
+          </a>
+          <a href="logout.html" class="profile-link-btn outline">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
+        <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
+        <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
+        <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
+    </footer>
+  </div>
+
+  <script>
+    // ── Auth guard ────────────────────────────────────────────────
+    if (!requireAuth()) { /* requireAuth() already redirected */ }
+
+    // ── Populate from localStorage ────────────────────────────────
+    const user = getUser();
+    if (user) {
+      const nameEl = document.getElementById("user-name");
+      const emailHdr = document.getElementById("user-email-header");
+      const nameBody = document.getElementById("profile-name");
+      const emailBody = document.getElementById("user-email");
+      const roleEl = document.getElementById("user-role");
+
+      if (nameEl) nameEl.textContent = user.name  || "—";
+      if (emailHdr) emailHdr.textContent = user.email || "—";
+      if (nameBody) nameBody.textContent = user.name  || "—";
+      if (emailBody) emailBody.textContent = user.email || "—";
+      if (roleEl) roleEl.textContent = (user.role || "USER").replace("ROLE_", "");
+    }
+  </script>
+</body>
+</html>
