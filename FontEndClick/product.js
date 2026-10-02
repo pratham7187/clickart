@@ -1,18 +1,18 @@
 // product.js — ClickKart Product Detail Page
 // Reads ck_productId from localStorage, fetches full product from Spring Boot,
-// renders the detail page, and wires Add-to-Cart, Buy Now, and Wishlist buttons.
+// renders the detail page, and wires Add-to-Cart, Buy Now, Wishlist, and Reviews.
 //
 // Requires: api.js must be loaded first (provides apiGetProductById,
-// apiAddToCart, apiPlaceOrder, apiAddToWishlist, requireAuth, formatPrice, etc.)
+// apiAddToCart, apiPlaceOrder, apiAddToWishlist, apiGetReviews,
+// apiGetReviewSummary, apiSubmitReview, apiDeleteReview, etc.)
 
 window.onload = async function () {
   // ── Auth guard ────────────────────────────────────────────────────────────
   if (!requireAuth()) return;
 
   // ── Read product ID stored by the listing pages ───────────────────────────
-  // CHANGED: was reading productName / productPrice / productImage strings.
-  // Now reads the numeric product ID and fetches full details from the API.
-  const productId = localStorage.getItem("ck_productId");
+  const productId = new URLSearchParams(window.location.search).get("id")
+    || localStorage.getItem("ck_productId");
   if (!productId) {
     alert("No product selected. Please browse products first.");
     history.back();
@@ -23,7 +23,7 @@ window.onload = async function () {
   let product;
   try {
     const res = await apiGetProductById(productId);
-    product = res.data; // ProductResponse shape from backend
+    product = res.data;
   } catch (err) {
     document.getElementById("product-name").innerText = "Could not load product.";
     console.error("Product fetch failed:", err);
@@ -31,8 +31,6 @@ window.onload = async function () {
   }
 
   // ── Render product details ─────────────────────────────────────────────────
-  // ProductResponse fields: id, name, price, imageUrl, stock, description,
-  // subcategory, categoryName, categoryDisplayName, active, createdAt
   document.getElementById("product-img").src          = product.imageUrl || "";
   document.getElementById("product-img").alt          = product.name;
   document.getElementById("product-name").innerText   = product.name;
@@ -49,13 +47,11 @@ window.onload = async function () {
     descEl.innerText = product.description || "";
   }
 
-  // Clamp quantity max to available stock
   const qtyInput = document.getElementById("quantity");
   if (qtyInput && product.stock > 0) {
     qtyInput.max = product.stock;
   }
 
-  // Disable action buttons if out of stock
   if (product.stock === 0) {
     const addCartBtn = document.getElementById("add-cart-btn");
     const buyBtn     = document.getElementById("buy-now-btn");
@@ -63,14 +59,15 @@ window.onload = async function () {
     if (buyBtn)     { buyBtn.disabled = true;     buyBtn.style.opacity = "0.5"; }
   }
 
+  // ── Load real ratings ─────────────────────────────────────────────────────
+  loadRatingAndReviews(productId);
+
   // ── Helper: get current quantity input value ───────────────────────────────
   function getQty() {
     return parseInt(document.getElementById("quantity")?.value || "1", 10);
   }
 
   // ── Add to Cart ────────────────────────────────────────────────────────────
-  // CHANGED: was POST /api/buy (Flask, single-product order).
-  // Now uses POST /api/cart/add { productId, quantity } then stays on page.
   const addCartBtn = document.getElementById("add-cart-btn");
   if (addCartBtn) {
     addCartBtn.addEventListener("click", async () => {
@@ -91,9 +88,6 @@ window.onload = async function () {
   }
 
   // ── Buy Now (add to cart → place order) ───────────────────────────────────
-  // CHANGED: was POST /api/buy with full product data body.
-  // New flow: add to cart first, then POST /api/orders/place { address, pincode }.
-  // This is the correct Spring Boot checkout flow.
   const buyNowBtn = document.getElementById("buy-now-btn");
   if (buyNowBtn) {
     buyNowBtn.addEventListener("click", async () => {
@@ -110,11 +104,7 @@ window.onload = async function () {
       buyNowBtn.innerText = "Placing Order...";
 
       try {
-        // Step 1: add to cart (creates cart if not exists)
         await apiAddToCart(product.id, qty);
-
-        // Step 2: checkout — Spring Boot atomically decrements stock,
-        // snapshots prices, clears cart, and returns the new Order
         const orderRes = await apiPlaceOrder(address, pincode);
         const order    = orderRes.data;
 
@@ -129,18 +119,15 @@ window.onload = async function () {
   }
 
   // ── Wishlist ───────────────────────────────────────────────────────────────
-  // CHANGED: was POST /api/wishlist with { name, price, image, email }.
-  // Now uses POST /api/wishlist/add/{productId} with JWT header (no email needed).
   const wishlistBtn = document.getElementById("wishlist-btn");
   if (wishlistBtn) {
-    // Check current wishlist status and update button appearance on load
     apiIsWishlisted(product.id)
       .then(wishlisted => {
         if (wishlisted) {
           wishlistBtn.innerHTML = '<i class="fa-solid fa-heart" style="color:#e53935;"></i> Wishlisted';
         }
       })
-      .catch(() => {}); // Non-critical — ignore errors on status check
+      .catch(() => {});
 
     wishlistBtn.addEventListener("click", async () => {
       wishlistBtn.disabled = true;
@@ -148,19 +135,168 @@ window.onload = async function () {
         const alreadyWishlisted = wishlistBtn.innerHTML.includes("Wishlisted");
 
         if (alreadyWishlisted) {
-          // Toggle off — remove from wishlist
           await apiRemoveFromWishlist(product.id);
           wishlistBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Wishlist';
         } else {
-          // Toggle on — add to wishlist
           await apiAddToWishlist(product.id);
           wishlistBtn.innerHTML = '<i class="fa-solid fa-heart" style="color:#e53935;"></i> Wishlisted';
         }
       } catch (err) {
-        alert(err.message); // e.g. "Already in wishlist" or conflict message
+        alert(err.message);
       } finally {
         wishlistBtn.disabled = false;
       }
     });
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  REVIEWS SYSTEM
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // ── Star input selection ───────────────────────────────────────────────────
+  let selectedRating = 0;
+  const starBtns = document.querySelectorAll("#star-input .star-btn");
+  starBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      selectedRating = parseInt(btn.dataset.rating);
+      starBtns.forEach(b => {
+        b.classList.toggle("active", parseInt(b.dataset.rating) <= selectedRating);
+      });
+    });
+    btn.addEventListener("mouseenter", () => {
+      const hoverVal = parseInt(btn.dataset.rating);
+      starBtns.forEach(b => {
+        b.classList.toggle("active", parseInt(b.dataset.rating) <= hoverVal);
+      });
+    });
+  });
+  document.getElementById("star-input")?.addEventListener("mouseleave", () => {
+    starBtns.forEach(b => {
+      b.classList.toggle("active", parseInt(b.dataset.rating) <= selectedRating);
+    });
+  });
+
+  // ── Submit Review ──────────────────────────────────────────────────────────
+  const submitBtn = document.getElementById("submit-review-btn");
+  if (submitBtn) {
+    submitBtn.addEventListener("click", async () => {
+      if (selectedRating === 0) {
+        alert("Please select a star rating.");
+        return;
+      }
+      const comment = document.getElementById("review-comment")?.value?.trim() || "";
+      submitBtn.disabled  = true;
+      submitBtn.innerText = "Submitting...";
+
+      try {
+        await apiSubmitReview(productId, selectedRating, comment);
+        document.getElementById("review-comment").value = "";
+        selectedRating = 0;
+        starBtns.forEach(b => b.classList.remove("active"));
+        loadRatingAndReviews(productId);
+      } catch (err) {
+        alert("Could not submit review: " + err.message);
+      } finally {
+        submitBtn.disabled  = false;
+        submitBtn.innerText = "Submit Review";
+      }
+    });
+  }
 };
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Load rating summary + review list
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function renderStars(rating) {
+  let stars = "";
+  for (let i = 1; i <= 5; i++) {
+    stars += i <= Math.round(rating) ? "★" : "☆";
+  }
+  return stars;
+}
+
+async function loadRatingAndReviews(productId) {
+  const summaryEl = document.getElementById("review-summary");
+  const listEl    = document.getElementById("review-list");
+  const ratingDisplay = document.getElementById("product-rating-display");
+  const currentUser = getUser();
+
+  // Load summary
+  try {
+    const summaryRes = await apiGetReviewSummary(productId);
+    const s = summaryRes.data;
+    const avg   = s.averageRating || 0;
+    const count = s.reviewCount   || 0;
+
+    if (ratingDisplay) {
+      if (count > 0) {
+        ratingDisplay.innerHTML = `<span class="star-display">${renderStars(avg)}</span> <span style="font-weight:700;">${avg}</span> <span style="color:var(--txt-muted);">(${count} Review${count !== 1 ? 's' : ''})</span>`;
+      } else {
+        ratingDisplay.innerHTML = `<span style="color:var(--txt-muted);">No reviews yet</span>`;
+      }
+    }
+
+    if (summaryEl) {
+      if (count > 0) {
+        summaryEl.innerHTML = `
+          <span class="avg-rating">${avg}</span>
+          <span class="star-display">${renderStars(avg)}</span>
+          <span>${count} Review${count !== 1 ? 's' : ''}</span>
+        `;
+      } else {
+        summaryEl.innerHTML = `<span>No reviews yet. Be the first to review!</span>`;
+      }
+    }
+  } catch (err) {
+    console.error("Could not load review summary:", err);
+  }
+
+  // Load reviews
+  try {
+    const reviewsRes = await apiGetReviews(productId);
+    const reviews = reviewsRes.data || [];
+
+    if (!listEl) return;
+
+    if (reviews.length === 0) {
+      listEl.innerHTML = `<div class="no-reviews"><i class="fa-regular fa-comment-dots" style="font-size:2rem;margin-bottom:8px;display:block;"></i>No reviews yet. Share your thoughts!</div>`;
+      return;
+    }
+
+    listEl.innerHTML = "";
+    reviews.forEach(r => {
+      const card = document.createElement("div");
+      card.className = "review-card";
+
+      const isOwn = currentUser && currentUser.userId == r.userId;
+      const deleteBtn = isOwn
+        ? `<button class="delete-review-btn" onclick="deleteReview(${r.id}, ${productId})"><i class="fa-solid fa-trash-can"></i> Delete</button>`
+        : "";
+
+      card.innerHTML = `
+        <div class="review-card-header">
+          <span class="reviewer"><i class="fa-solid fa-user-circle"></i> ${r.userName}</span>
+          <span class="review-date">${formatDate(r.createdAt)}</span>
+        </div>
+        <div class="review-stars">${renderStars(r.rating)} ${r.rating}/5</div>
+        ${r.comment ? `<div class="review-comment">${r.comment}</div>` : ""}
+        ${deleteBtn}
+      `;
+      listEl.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Could not load reviews:", err);
+    if (listEl) listEl.innerHTML = `<p style="color:var(--error);">Could not load reviews.</p>`;
+  }
+}
+
+async function deleteReview(reviewId, productId) {
+  if (!confirm("Delete this review?")) return;
+  try {
+    await apiDeleteReview(reviewId);
+    loadRatingAndReviews(productId);
+  } catch (err) {
+    alert("Could not delete review: " + err.message);
+  }
+}

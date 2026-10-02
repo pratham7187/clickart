@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Men's Fashion - ClickKart</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-
   <link rel="stylesheet" href="style.css">
   <script src="api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
   <script src="search.js"></script>
 </head>
 
@@ -23,12 +20,12 @@
   <!-- Sidebar -->
   <div class="menu">
     <ul class="menu-content">
-      <li><a href="index.html"><i class="fa-solid fa-house"></i></a></li>
+      <li><a href="index.html"><span><i class="fa-solid fa-house"></i></span><span>Home</span></a></li>
       <li><a href="cart.html"><span><i class="fa-solid fa-cart-shopping"></i></span><span>Cart</span></a></li>
-      <li><a href="wishlist.html"><i class="fa-solid fa-heart"></i> </a></li>
-      <li><a href="profile.html"><i class="fa-solid fa-user"></i></a></li>
-      <li><a href="orders.html"><i class="fa-solid fa-box"></i> </a></li>
-      <li><a href="logout.html"><i class="fa-solid fa-right-from-bracket"></i> t</a></li>
+      <li><a href="wishlist.html"><span><i class="fa-solid fa-heart"></i></span><span>Wishlist</span></a></li>
+      <li><a href="profile.html"><span><i class="fa-solid fa-user"></i></span><span>Profile</span></a></li>
+      <li><a href="orders.html"><span><i class="fa-solid fa-box"></i></span><span>Orders</span></a></li>
+      <li><a href="logout.html"><span><i class="fa-solid fa-right-from-bracket"></i></span><span>Logout</span></a></li>
     </ul>
   </div>
 
@@ -36,9 +33,19 @@
     <!-- Navbar -->
     <header class="navBar">
       <div class="logo">
-        <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="40" />
+        <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" />
       </div>
-
+      <form class="search__form" role="search">
+        <input class="input" type="search" placeholder="Search for products, categories and more" aria-label="Search products" />
+        <button class="search__icon" type="submit" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+      <div class="nav-buttons">
+        <button class="login-btn" onclick="window.location.href='cart.html'">
+          <i class="fa-solid fa-cart-shopping"></i> Cart
+        </button>
+      </div>
     </header>
 
     <!-- Page Header -->
@@ -79,11 +86,8 @@
   </div>
 
   <script>
-    // ── Auth guard ─────────────────────────────────────────────────
     requireAuth();
 
-    // ── Subcategory filter (preserved exactly) ───────────────────────
-    // Clicks hide all .product-item then show those matching the subcategory class.
     const filters = {
       "filter-tshirt"  : "tshirt",
       "filter-formal"  : "formal",
@@ -103,22 +107,16 @@
       }
     });
 
-    // ── Navigate to product detail ────────────────────────────────
-    // CHANGED: stores product ID (not name/price/image strings).
-    // product.js reads ck_productId and fetches full details from the API.
     function goToProduct(productId) {
       localStorage.setItem("ck_productId", productId);
       window.location.href = "product.html";
     }
 
-    // ── Load Men's products from Spring Boot ──────────────────────
-    // CHANGED: was fetch("localhost:5000/api/products/men")
-    // Now uses apiGetProductsByCategory(1) → GET /api/products/category/1
     async function loadProducts() {
       const grid = document.getElementById("product-grid");
       grid.innerHTML = "<p style='padding:20px;color:#888;'>Loading products...</p>";
       try {
-        const res      = await apiGetProductsByCategory(1); // 1 = Men
+        const res = await apiGetProductsByCategory(1);
         const products = res.data;
 
         grid.innerHTML = "";
@@ -129,17 +127,18 @@
 
         products.forEach(p => {
           const item = document.createElement("div");
-          // subcategory class keeps the existing filter logic working unchanged
           item.className = `product-item ${(p.subcategory || "").toLowerCase()}`;
           item.style.cursor = "pointer";
           item.onclick = () => goToProduct(p.id);
           item.innerHTML = `
-            <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='image/logo.png'" />
-            <p class="product-name">${p.name}</p>
-            <p class="product-price">${formatPrice(p.price)}</p>
-            <p style="font-size:12px;color:${p.stock > 0 ? '#4caf50' : '#f44336'}">
-              ${p.stock > 0 ? "In Stock" : "Out of Stock"}
-            </p>
+            <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='images/image/logo.png'" />
+            <div class="product-item-body">
+              <div class="product-name">${p.name}</div>
+              <div class="product-price">${formatPrice(p.price)}</div>
+              <span class="stock-badge ${p.stock > 0 ? 'in' : 'out'}">
+                ${p.stock > 0 ? "In Stock" : "Out of Stock"}
+              </span>
+            </div>
           `;
           grid.appendChild(item);
         });

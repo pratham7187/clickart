@@ -12,6 +12,208 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
   <script src="api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
+  <script src="search.js"></script>
+
+  <style>
+    /* ── Orders page scoped styles ─────────────────────────────── */
+    .orders-page-content {
+      padding: 32px 28px;
+      flex: 1;
+    }
+
+    .orders-page-content > h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      padding-left: 14px;
+      border-left: 4px solid var(--pink);
+    }
+
+    /* ── Order card ────────────────────────────────────────────── */
+    .order-card {
+      background: var(--bg-card);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .order-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Header bar of each order card */
+    .order-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 18px 22px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .order-card-header .order-id {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--txt-h);
+    }
+
+    .order-meta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--txt-muted);
+    }
+
+    .order-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .order-meta i {
+      font-size: 0.8rem;
+      color: var(--pink);
+    }
+
+    /* ── Product rows inside an order ──────────────────────────── */
+    .order-products {
+      padding: 0;
+    }
+
+    .order-product-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border-light);
+      transition: background 0.15s;
+    }
+
+    .order-product-row:last-child {
+      border-bottom: none;
+    }
+
+    .order-product-row:hover {
+      background: #fdf4fa;
+    }
+
+    .order-product-row img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: var(--r-sm);
+      flex-shrink: 0;
+      background: #f5f5f5;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .order-product-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .order-product-info .prod-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--txt-h);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-product-info .prod-meta {
+      font-size: 0.82rem;
+      color: var(--txt-muted);
+    }
+
+    .order-product-info .prod-meta .prod-price {
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    .order-product-subtotal {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--txt-h);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Order footer (total + address) ────────────────────────── */
+    .order-card-footer {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px 22px;
+      background: var(--bg);
+      border-top: 1px solid var(--border-light);
+    }
+
+    .order-address {
+      font-size: 0.83rem;
+      color: var(--txt-muted);
+      line-height: 1.5;
+      max-width: 400px;
+    }
+
+    .order-address strong {
+      color: var(--txt-body);
+      font-weight: 600;
+    }
+
+    .order-total-box {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .order-total-box .label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--txt-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .order-total-box .amount {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--pink);
+      margin-top: 2px;
+    }
+
+    /* ── Cancel button ─────────────────────────────────────────── */
+    .cancel-order-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 7px 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 2px solid var(--error);
+      color: var(--error);
+      background: transparent;
+      border-radius: var(--r-sm);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .cancel-order-btn:hover {
+      background: var(--error);
+      color: #fff;
+    }
+  </style>
 </head>
 <body>
 
@@ -36,6 +238,12 @@
         <div class="logo">
           <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart" />
         </div>
+        <form class="search__form" role="search">
+          <input class="input" type="search" placeholder="Search for products, categories and more" aria-label="Search products" />
+          <button class="search__icon" type="submit" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
         <div class="nav-buttons">
           <button class="login-btn" onclick="window.location.href='cart.html'">
             <i class="fa-solid fa-cart-shopping"></i> Cart
@@ -47,8 +255,8 @@
     <!-- Orders content -->
     <div class="orders-page-content">
       <h1><i class="fa-solid fa-box" style="color:var(--pink);margin-right:10px;"></i>My Orders</h1>
-      <div class="orders-list" id="orders-container">
-        <div class="state-msg" style="grid-column:1/-1">
+      <div id="orders-container">
+        <div class="state-msg">
           <i class="fa-solid fa-spinner fa-spin"></i>
           Loading your orders…
         </div>
@@ -71,7 +279,6 @@
     // ── Auth guard ──────────────────────────────────────────────────────────
     if (!requireAuth()) { /* requireAuth already redirected */ }
 
-    // Status badge config (color + background)
     const STATUS_STYLE = {
       PLACED    : { bg: "#fff3e0", color: "#e65100", label: "⏳ Placed"    },
       CONFIRMED : { bg: "#e3f2fd", color: "#1565c0", label: "✔ Confirmed"  },
@@ -84,6 +291,7 @@
       const container = document.getElementById("orders-container");
 
       try {
+        // Step 1: Get order list (summary)
         const res    = await apiGetOrders();
         const orders = res.data;
 
@@ -91,7 +299,7 @@
 
         if (!orders || orders.length === 0) {
           container.innerHTML = `
-            <div class="state-msg" style="grid-column:1/-1">
+            <div class="state-msg">
               <i class="fa-solid fa-box-open"></i>
               You have no orders yet.<br>
               <a class="continue-link" href="index.html">
@@ -101,41 +309,102 @@
           return;
         }
 
-        orders.forEach(order => {
-          const s    = STATUS_STYLE[order.status] || { bg:"#f5f5f5", color:"#666", label: order.status };
-          const date = formatDate(order.orderedAt);
+        // Step 2: For each order, fetch full details (with line items + product info)
+        // Fetch all in parallel for speed
+        const detailPromises = orders.map(o => apiGetOrderById(o.id));
+        const detailResults  = await Promise.all(detailPromises);
 
-          const div = document.createElement("div");
-          div.className = "order-item";
-          div.innerHTML = `
-            <div class="order-details">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-                <h3 style="margin:0;">Order #${order.id}</h3>
-                <span class="status-badge"
-                  style="background:${s.bg};color:${s.color};">
-                  ${s.label}
-                </span>
+        detailResults.forEach(detailRes => {
+          const order = detailRes.data;
+          const s     = STATUS_STYLE[order.status] || { bg:"#f5f5f5", color:"#666", label: order.status };
+          const date  = formatDate(order.orderedAt);
+          const items = order.items || [];
+
+          // ── Build order card ───────────────────────────────────
+          const card = document.createElement("div");
+          card.className = "order-card";
+
+          // Header
+          let headerHTML = `
+            <div class="order-card-header">
+              <span class="order-id">Order #${order.id}</span>
+              <div class="order-meta">
+                <span><i class="fa-solid fa-calendar"></i> ${date}</span>
+                <span><i class="fa-solid fa-location-dot"></i> ${order.pincode}</span>
+                <span class="status-badge" style="background:${s.bg};color:${s.color};">${s.label}</span>
               </div>
+            </div>`;
 
-              <p><strong>Total:</strong>
-                <span style="color:var(--pink);font-weight:700;font-size:1.05rem;">
-                  ${formatPrice(order.totalAmount)}
-                </span>
-              </p>
-              <p><strong>Ordered On:</strong> ${date}</p>
-              <p><strong>Pincode:</strong> ${order.pincode}</p>
-              <p style="line-height:1.5"><strong>Address:</strong><br>
-                <span style="color:var(--txt-muted);font-size:0.85rem;">${order.address}</span>
-              </p>
-            </div>
-          `;
+          // Product rows
+          let productsHTML = '<div class="order-products">';
+          items.forEach(item => {
+            const p = item.product;
+            const imgUrl = p ? p.imageUrl : '';
+            const name   = p ? p.name : 'Product';
+            const price  = item.priceAtPurchase || (p ? p.price : 0);
+            const qty    = item.quantity || 1;
+            const lineTotal = item.lineTotal || (price * qty);
 
-          container.appendChild(div);
+            productsHTML += `
+              <div class="order-product-row">
+                <img src="${imgUrl}" alt="${name}" onerror="this.src='images/image/logo.png'" />
+                <div class="order-product-info">
+                  <div class="prod-name">${name}</div>
+                  <div class="prod-meta">
+                    <span class="prod-price">${formatPrice(price)}</span> × ${qty}
+                  </div>
+                </div>
+                <div class="order-product-subtotal">${formatPrice(lineTotal)}</div>
+              </div>`;
+          });
+          productsHTML += '</div>';
+
+          // Footer with address + total
+          const canCancel = (order.status === 'PLACED' || order.status === 'CONFIRMED');
+          let footerHTML = `
+            <div class="order-card-footer">
+              <div class="order-address">
+                <strong><i class="fa-solid fa-truck"></i> Delivery Address</strong><br>
+                ${order.address}<br>
+                PIN: ${order.pincode}
+              </div>
+              <div class="order-total-box">
+                <div class="label">Order Total</div>
+                <div class="amount">${formatPrice(order.totalAmount)}</div>
+                ${canCancel ? `<button class="cancel-order-btn" data-oid="${order.id}">
+                  <i class="fa-solid fa-xmark"></i> Cancel Order
+                </button>` : ''}
+              </div>
+            </div>`;
+
+          card.innerHTML = headerHTML + productsHTML + footerHTML;
+          container.appendChild(card);
+        });
+
+        // ── Cancel order handlers ──────────────────────────────────
+        container.querySelectorAll(".cancel-order-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const orderId = btn.dataset.oid;
+            if (!confirm(`Cancel Order #${orderId}? This cannot be undone.`)) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cancelling...';
+
+            try {
+              await apiCancelOrder(orderId);
+              alert(`Order #${orderId} has been cancelled.`);
+              window.location.reload();
+            } catch (err) {
+              alert("Could not cancel: " + err.message);
+              btn.disabled = false;
+              btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Cancel Order';
+            }
+          });
         });
 
       } catch (err) {
         container.innerHTML = `
-          <div class="state-msg error" style="grid-column:1/-1">
+          <div class="state-msg error">
             <i class="fa-solid fa-circle-exclamation"></i>
             Error loading orders: ${err.message}
           </div>`;

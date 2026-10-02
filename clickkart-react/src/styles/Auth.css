@@ -1,0 +1,118 @@
+/* ── Login / Register Page ────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 20px;
+}
+
+.auth-box {
+  background: #fff;
+  padding: 40px 36px;
+  border-radius: var(--r-xl);
+  width: 380px;
+  max-width: 95vw;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  animation: authSlideUp 0.35s ease;
+}
+
+@keyframes authSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.auth-box .auth-logo {
+  display: block;
+  height: 48px;
+  margin: 0 auto 24px;
+}
+
+.auth-box h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--txt-h);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.auth-box .auth-subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--txt-muted);
+  margin-bottom: 24px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: var(--txt-body);
+  transition: border-color var(--t);
+  background: #fff;
+}
+
+.auth-form input:focus {
+  border-color: var(--pink);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(254,17,159,0.10);
+}
+
+.auth-form .auth-submit-btn {
+  background: var(--grad-pink);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: var(--r-sm);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity var(--t);
+  margin-top: 4px;
+}
+
+.auth-form .auth-submit-btn:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.auth-form .auth-submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-toggle {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.auth-toggle span {
+  font-size: 0.83rem;
+  color: var(--pink);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.auth-toggle span:hover {
+  text-decoration: underline;
+}
+
+.auth-error {
+  background: #fee2e2;
+  color: var(--error);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: var(--r-sm);
+  text-align: center;
+}

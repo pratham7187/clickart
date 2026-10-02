@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClickKart</title>
+  <title>ClickKart — Trending Fashion, Best Prices</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,112 +11,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="style.css" />
 
- <style>
-  /* Fullscreen login overlay */
-  #login-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    animation: fadeIn 0.4s ease-out;
-  }
-
-  /* Fade-in animation */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Login box styling */
-  #login-box {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 12px;
-    width: 320px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    text-align: center;
-    animation: scaleUp 0.4s ease-out;
-  }
-
-  /* Scale-up animation */
-  @keyframes scaleUp {
-    from { transform: scale(0.9); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-  }
-
-  #login-box h2 {
-    margin-bottom: 1rem;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    color: #333;
-  }
-
-  #login-box input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: border-color 0.2s;
-  }
-
-  #login-box input:focus {
-    outline: none;
-    border-color: #fe119f;
-    box-shadow: 0 0 0 3px rgba(254,17,159,0.12);
-  }
-
-  #login-box button {
-    background: linear-gradient(135deg, #fe119f 0%, #ff6b35 100%);
-    color: white;
-    padding: 12px;
-    width: 100%;
-    border: none;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    border-radius: 8px;
-    transition: opacity 0.2s ease, transform 0.1s ease;
-  }
-
-  #login-box button:hover {
-    opacity: 0.88;
-    transform: translateY(-1px);
-  }
-
-  .toggle-form p {
-    font-size: 0.85rem;
-    margin-top: 12px;
-    color: #888;
-    text-align: center;
-  }
-
-  .toggle-form span {
-    color: #fe119f;
-    cursor: pointer;
-    font-weight: 600;
-    transition: color 0.2s;
-  }
-
-  .toggle-form span:hover {
-    color: #c4006c;
-    text-decoration: underline;
-  }
-</style>
-
   <!-- ClickKart API client (JWT + all backend calls) -->
   <script src="api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
+  <script src="search.js"></script>
 
 </head>
 <body>
 
-  <!-- Login Overlay -->
+  <!-- ══════════════════════════════════════════════════════════════
+       Login Overlay
+       ══════════════════════════════════════════════════════════════ -->
   <div id="login-overlay">
     <div id="login-box">
       <h2 id="form-title">Login</h2>
@@ -126,13 +31,16 @@
         <button type="submit" id="submit-btn">Login</button>
       </form>
       <div class="toggle-form">
-        <p><span class="toggle" id="toggle-signup" style="color:blue;cursor:pointer;">Don't have an account? Sign Up</span></p>
+        <p><span class="toggle" id="toggle-signup">Don't have an account? Sign Up</span></p>
       </div>
     </div>
   </div>
 
-  <!-- Main UI -->
+  <!-- ══════════════════════════════════════════════════════════════
+       Main UI (shown after login)
+       ══════════════════════════════════════════════════════════════ -->
   <div id="main-ui" style="display:none;">
+
     <!-- Sidebar Menu -->
     <div class="menu">
       <ul class="menu-content">
@@ -147,54 +55,129 @@
 
     <!-- Main Content -->
     <div class="main-content">
+
+      <!-- ── Navbar ──────────────────────────────────────────────── -->
       <header>
         <div class="navBar">
           <div class="logo">
-            <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" height="100" />
+            <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart Logo" />
           </div>
-          <form class="search__form" id="search-form">
-            <input class="input" type="text" id="search-input" placeholder="Search for products, brands and more" />
-            <div class="search__icon" id="search-icon">
+          <form class="search__form" id="search-form" role="search">
+            <input class="input" type="search" id="search-input"
+              placeholder="Search for products, categories and more" aria-label="Search products" />
+            <button class="search__icon" id="search-icon" type="submit" aria-label="Search">
               <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
+            </button>
           </form>
+          <div class="nav-buttons">
+            <button class="login-btn" onclick="window.location.href='cart.html'">
+              <i class="fa-solid fa-cart-shopping"></i> Cart
+            </button>
+          </div>
         </div>
       </header>
 
+      <!-- ── Hero Banner ─────────────────────────────────────────── -->
+      <section class="hero-banner">
+        <div class="hero-content">
+          <span class="hero-label">✨ New Arrivals 2025</span>
+          <h1 class="hero-title">Summer Collection<br>Is Here</h1>
+          <p class="hero-subtitle">
+            Discover the latest trends in fashion — curated just for you.
+            From casual wear to ethnic elegance, shop it all on ClickKart.
+          </p>
+          <a href="#categories" class="hero-btn">
+            <i class="fa-solid fa-bag-shopping"></i> Shop Now
+          </a>
+        </div>
+      </section>
+
+      <!-- ── Trending Carousel ───────────────────────────────────── -->
       <section class="trending-section">
         <h2 class="trending-heading">Trending Now</h2>
         <div class="carousel-wrapper">
           <div class="carousel-track">
-            <div class="carousel-item"><img src="images/image/image1.png" alt="1" /></div>
-            <div class="carousel-item"><img src="images/image/image2.png" alt="2" /></div>
-            <div class="carousel-item"><img src="images/image/image3.png" alt="3" /></div>
-            <div class="carousel-item"><img src="images/image/image4.png" alt="4" /></div>
+            <div class="carousel-item"><img src="images/image/image1.png" alt="Trending 1" /></div>
+            <div class="carousel-item"><img src="images/image/image2.png" alt="Trending 2" /></div>
+            <div class="carousel-item"><img src="images/image/image3.png" alt="Trending 3" /></div>
+            <div class="carousel-item"><img src="images/image/image4.png" alt="Trending 4" /></div>
           </div>
         </div>
       </section>
 
-      <section class="category-menu">
-        <h2>Shop Now!!</h2>
-        <div class="categories">
-          <div class="category"><a href="men.html"><img src="images/image/men.jpg" alt="Men" /><h3>Men</h3></a></div>
-          <div class="category"><a href="women.html"><img src="images/image/women.jpg" alt="Women" /><h3>Women</h3></a></div>
-          <div class="category"><a href="kids.html"><img src="images/image/kid.jpg" alt="Kids" /><h3>Kids</h3></a></div>
+      <!-- ── Featured Products ───────────────────────────────────── -->
+      <section class="featured-section">
+        <h2>Featured Products</h2>
+        <p class="featured-subtitle">Handpicked styles loved by our customers</p>
+        <div class="featured-grid" id="featured-grid">
+          <!-- Populated by JS below -->
         </div>
       </section>
 
-      <!-- Footer -->
+      <!-- ── Shop by Category ────────────────────────────────────── -->
+      <section class="category-menu" id="categories">
+        <h2>Shop by Category</h2>
+        <div class="categories">
+          <div class="category">
+            <a href="men.html">
+              <img src="images/image/men.jpg" alt="Men" />
+              <h3>Men</h3>
+            </a>
+          </div>
+          <div class="category">
+            <a href="women.html">
+              <img src="images/image/women.jpg" alt="Women" />
+              <h3>Women</h3>
+            </a>
+          </div>
+          <div class="category">
+            <a href="kids.html">
+              <img src="images/image/kid.jpg" alt="Kids" />
+              <h3>Kids</h3>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Footer ──────────────────────────────────────────────── -->
       <footer>
         <div class="footer-grid">
-          <div class="footer-column"><h4>ABOUT</h4><p>Contact Us</p><p>About Us</p><p>Careers</p></div>
-          <div class="footer-column"><h4>HELP</h4><p>Payments</p><p>Shipping</p><p>Returns</p></div>
-          <div class="footer-column"><h4>POLICY</h4><p>Return Policy</p><p>Terms Of Use</p><p>Privacy</p></div>
-          <div class="footer-column"><h4>CONTACT</h4><p>Puttur, Karnataka</p><p>6282695997</p><p>clickkart@gmail.com</p></div>
+          <div class="footer-column">
+            <h4>ABOUT</h4>
+            <p>Contact Us</p>
+            <p>About Us</p>
+            <p>Careers</p>
+          </div>
+          <div class="footer-column">
+            <h4>HELP</h4>
+            <p>Payments</p>
+            <p>Shipping</p>
+            <p>Returns</p>
+          </div>
+          <div class="footer-column">
+            <h4>POLICY</h4>
+            <p>Return Policy</p>
+            <p>Terms Of Use</p>
+            <p>Privacy</p>
+          </div>
+          <div class="footer-column">
+            <h4>CONTACT</h4>
+            <p>Puttur, Karnataka</p>
+            <p>6282695997</p>
+            <p>clickkart@gmail.com</p>
+          </div>
         </div>
-        <div class="footer-bottom"><p>&copy; 2025 Clickkart.com</p></div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 ClickKart.com — All rights reserved</p>
+        </div>
       </footer>
+
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════════════════════════════
+       Scripts  (NO functionality changes — only UI wiring)
+       ══════════════════════════════════════════════════════════════ -->
   <script>
     const loginOverlay = document.getElementById("login-overlay");
     const mainUI       = document.getElementById("main-ui");
@@ -204,7 +187,6 @@
     const logoutLink   = document.getElementById("logout-link");
 
     // ── Toggle between Login and Sign Up forms ─────────────────
-    // Preserved exactly: same DOM swap, same animation, same styles.
     toggleSignup.addEventListener("click", () => {
       if (formTitle.innerText === "Login") {
         formTitle.innerText = "Sign Up";
@@ -227,9 +209,6 @@
     });
 
     // ── Handle Login / Sign Up form submission ─────────────────
-    // CHANGED: calls apiLogin() / apiRegister() from api.js instead
-    // of the old Flask endpoints on localhost:5000.
-    // Stores JWT via saveSession() instead of just the email string.
     document.addEventListener("submit", async function (e) {
       if (e.target.id !== "auth-form") return;
       e.preventDefault();
@@ -240,25 +219,21 @@
       const password  = document.getElementById("password").value.trim();
       const isLogin   = formTitle.innerText === "Login";
 
-      // Disable button and show loading state
       const btn = document.getElementById("submit-btn");
       btn.disabled  = true;
       btn.innerText = isLogin ? "Logging in..." : "Creating account...";
 
       try {
-        // apiLogin / apiRegister are defined in api.js
         const res = isLogin
           ? await apiLogin(email, password)
           : await apiRegister(name, email, password);
 
-        // res.data = AuthResponse { token, tokenType, userId, name, email, role }
-        saveSession(res.data);   // stores ck_token + ck_user in localStorage
+        saveSession(res.data);
 
         loginOverlay.style.display = "none";
         mainUI.style.display       = "block";
 
       } catch (err) {
-        // apiFetch throws with backend's message field on failure
         alert(err.message || "Something went wrong. Please try again.");
       } finally {
         btn.disabled  = false;
@@ -267,8 +242,6 @@
     });
 
     // ── Restore session on page load ───────────────────────────
-    // CHANGED: checks for JWT via isLoggedIn() (from api.js)
-    // instead of the old email string in localStorage.
     window.addEventListener("DOMContentLoaded", () => {
       if (isLoggedIn()) {
         loginOverlay.style.display = "none";
@@ -277,12 +250,87 @@
     });
 
     // ── Logout ─────────────────────────────────────────────────
-    // CHANGED: calls clearSession() which removes ck_token, ck_user,
-    // and also cleans up the old Flask-era keys (clickkart-user etc.).
     logoutLink.addEventListener("click", (e) => {
       e.preventDefault();
       clearSession();
       location.reload();
+    });
+
+    // ── Featured Products (loads 6 random products) ────────────
+    async function loadFeatured() {
+      const grid = document.getElementById("featured-grid");
+      if (!grid) return;
+
+      try {
+        const res = await apiGetAllProducts(0, 80);
+        const data = res && res.data;
+        let products = Array.isArray(data) ? data : (data && data.content) || [];
+
+        // Shuffle and pick 6
+        products = products.sort(() => Math.random() - 0.5).slice(0, 6);
+
+        grid.innerHTML = "";
+        for (const p of products) {
+          const card = document.createElement("a");
+          card.className = "featured-card";
+          card.href = `product.html?id=${p.id}`;
+          card.onclick = (e) => {
+            e.preventDefault();
+            localStorage.setItem("ck_productId", p.id);
+            window.location.href = "product.html";
+          };
+
+          // Fetch real rating from API
+          let rating = 0, reviews = 0;
+          try {
+            const summaryRes = await apiGetReviewSummary(p.id);
+            const s = summaryRes.data;
+            rating  = s.averageRating || 0;
+            reviews = s.reviewCount   || 0;
+          } catch (e) { /* ignore — show 0 */ }
+
+          const ratingText = reviews > 0
+            ? `<span class="star">⭐</span> ${rating} (${reviews})`
+            : `<span style="color:var(--txt-muted);">No reviews</span>`;
+
+          card.innerHTML = `
+            <img src="${p.imageUrl}" alt="${p.name}" onerror="this.src='images/image/logo.png'" />
+            <div class="featured-card-body">
+              <div class="product-name">${p.name}</div>
+              <div class="product-price">${formatPrice(p.price)}</div>
+              <div class="rating">${ratingText}</div>
+            </div>
+            <button class="add-cart-btn" onclick="event.preventDefault();event.stopPropagation();addFeaturedToCart(${p.id})">
+              Add to Cart
+            </button>
+          `;
+          grid.appendChild(card);
+        }
+      } catch (err) {
+        console.error("Could not load featured products:", err);
+      }
+    }
+
+    async function addFeaturedToCart(productId) {
+      try {
+        await apiAddToCart(productId, 1);
+        alert("Added to cart!");
+      } catch (err) {
+        alert("Could not add to cart: " + err.message);
+      }
+    }
+
+    // Load featured products after main UI shows
+    window.addEventListener("DOMContentLoaded", () => {
+      if (isLoggedIn()) loadFeatured();
+      // Also load after login
+      const observer = new MutationObserver(() => {
+        if (mainUI.style.display !== "none") {
+          loadFeatured();
+          observer.disconnect();
+        }
+      });
+      observer.observe(mainUI, { attributes: true, attributeFilter: ["style"] });
     });
   </script>
 

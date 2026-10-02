@@ -12,6 +12,8 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="style.css" />
   <script src="api.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0/dist/fuse.min.js"></script>
+  <script src="search.js"></script>
 </head>
 
 <body>
@@ -36,6 +38,12 @@
         <div class="logo">
           <img src="images/image/logo.png" class="clickkart-logo" alt="ClickKart" />
         </div>
+        <form class="search__form" role="search">
+          <input class="input" type="search" placeholder="Search for products, categories and more" aria-label="Search products" />
+          <button class="search__icon" type="submit" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
         <div class="nav-buttons">
           <a href="orders.html" class="login-btn"><i class="fa-solid fa-box"></i> My Orders</a>
           <a href="logout.html" class="login-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>

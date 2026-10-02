@@ -66,17 +66,18 @@
       }
 
       products.forEach(product => {
-        // CHANGED: Spring Boot uses product.imageUrl and product.id (not product.image / product._id)
         const productDiv = document.createElement("div");
         productDiv.className = "product-item";
         productDiv.style.cursor = "pointer";
         productDiv.innerHTML = `
-          <img src="${product.imageUrl}" alt="${product.name}" onerror="this.src='image/logo.png'" />
-          <h3>${product.name}</h3>
-          <p>${formatPrice(product.price)}</p>
-          <p style="font-size:12px;color:${product.stock > 0 ? '#4caf50' : '#f44336'}">
-            ${product.stock > 0 ? "In Stock" : "Out of Stock"}
-          </p>
+          <img src="${product.imageUrl}" alt="${product.name}" onerror="this.src='images/image/logo.png'" />
+          <div class="product-item-body">
+            <div class="product-name">${product.name}</div>
+            <div class="product-price">${formatPrice(product.price)}</div>
+            <span class="stock-badge ${product.stock > 0 ? 'in' : 'out'}">
+              ${product.stock > 0 ? "In Stock" : "Out of Stock"}
+            </span>
+          </div>
         `;
         productDiv.onclick = () => {
           localStorage.setItem("ck_productId", product.id);

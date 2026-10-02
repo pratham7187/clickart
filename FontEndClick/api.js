@@ -319,6 +319,44 @@ async function apiCancelOrder(orderId) {
   return apiFetch(`/api/orders/${orderId}/cancel`, { method: "DELETE" });
 }
 
+// ── Reviews API ────────────────────────────────────────────────────────────────
+
+/**
+ * Get all reviews for a product (public).
+ * GET /api/reviews/{productId}
+ */
+async function apiGetReviews(productId) {
+  return apiFetch(`/api/reviews/${productId}`);
+}
+
+/**
+ * Get review summary for a product (public).
+ * GET /api/reviews/{productId}/summary
+ * @returns {Promise<Object>} ApiResponse whose .data is { averageRating, reviewCount, productId }
+ */
+async function apiGetReviewSummary(productId) {
+  return apiFetch(`/api/reviews/${productId}/summary`);
+}
+
+/**
+ * Submit a review for a product (requires auth).
+ * POST /api/reviews/{productId}
+ */
+async function apiSubmitReview(productId, rating, comment) {
+  return apiFetch(`/api/reviews/${productId}`, {
+    method: "POST",
+    body: JSON.stringify({ rating, comment })
+  });
+}
+
+/**
+ * Delete a review (requires auth, only own reviews).
+ * DELETE /api/reviews/{reviewId}
+ */
+async function apiDeleteReview(reviewId) {
+  return apiFetch(`/api/reviews/${reviewId}`, { method: "DELETE" });
+}
+
 // ── Utility ────────────────────────────────────────────────────────────────────
 
 /**

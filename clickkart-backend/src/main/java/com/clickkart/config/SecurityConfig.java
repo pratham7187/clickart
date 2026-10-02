@@ -66,6 +66,8 @@ public class SecurityConfig {
                 // Public product browse (GET only — POST/PUT/DELETE are admin)
                 .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+                // Public review browse (GET only — POST/DELETE require auth)
+                .requestMatchers(HttpMethod.GET, "/api/reviews/**").permitAll()
                 // Actuator health
                 .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                 // All other requests require authentication
